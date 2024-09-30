@@ -11,6 +11,7 @@ import InputBase from '@mui/material/InputBase';
 
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Typography } from '@mui/material';
 
 const EditTask = ({
   task,
@@ -19,32 +20,40 @@ const EditTask = ({
   handleDeleteTask,
   handleShowEditTask,
 }) => {
-  const { id, title, note, estimatedCount } = task || {};
+  const { id, title, note, estimatedCount, actualCount } = task || {};
 
-  const [inputCount, setInputCount] = useState(estimatedCount || 1);
+  const [taskEstimatedCount, setTaskEstimatedCount] = useState(
+    estimatedCount || 1
+  );
+  const [taskActualCount, setTaskActualCount] = useState(actualCount || 0);
   const [taskTitle, setTaskTitle] = useState(title || '');
   const [taskNote, setTaskNote] = useState(note || '');
   const [showNote, setShowNote] = useState(!!note || false);
 
   const handleIncrementInput = () => {
-    if (inputCount < 1) {
-      const nr = parseFloat((inputCount + 0.1).toFixed(1));
-      return setInputCount(nr);
+    if (taskEstimatedCount >= 99) return;
+    if (taskEstimatedCount < 1) {
+      const nr = parseFloat((taskEstimatedCount + 0.1).toFixed(1));
+      return setTaskEstimatedCount(nr);
     }
-    return setInputCount(inputCount + 1);
+    return setTaskEstimatedCount(taskEstimatedCount + 1);
   };
 
   const handleDecrementInput = () => {
-    if (inputCount <= 0) return;
-    if (inputCount <= 1) {
-      const nr = parseFloat((inputCount - 0.1).toFixed(1));
-      return setInputCount(nr);
+    if (taskEstimatedCount <= 0) return;
+    if (taskEstimatedCount <= 1) {
+      const nr = parseFloat((taskEstimatedCount - 0.1).toFixed(1));
+      return setTaskEstimatedCount(nr);
     }
-    return setInputCount(inputCount - 1);
+    return setTaskEstimatedCount(taskEstimatedCount - 1);
   };
 
-  const handleEsimatedPomodoros = (e) => {
-    setInputCount(e.target.value * 1);
+  const handleEsimatedCountChange = (e) => {
+    setTaskEstimatedCount(e.target.value * 1);
+  };
+
+  const handleActualCountChange = (e) => {
+    setTaskActualCount(e.target.value * 1);
   };
 
   const handleTaskTitle = (e) => {
@@ -59,7 +68,7 @@ const EditTask = ({
     if (!task) {
       const newTask = {
         title: taskTitle,
-        estimatedCount: inputCount,
+        estimatedCount: taskEstimatedCount,
         actualCount: 0,
         note: taskNote,
         isActive: false,
@@ -69,7 +78,8 @@ const EditTask = ({
     } else {
       handleEditTask(id, {
         title: taskTitle,
-        estimatedCount: inputCount,
+        estimatedCount: taskEstimatedCount,
+        actualCount: taskActualCount,
         note: taskNote,
         type: 'display',
       });
@@ -103,30 +113,50 @@ const EditTask = ({
             ></InputBase>
           </Box>
           <Box sx={{ py: 1 }}>
-            {/* <FormControl> */}
             <InputLabel
               shrink
-              htmlFor="est-pomodoros"
               sx={{
                 color: 'rgb(85, 85, 85)',
                 fontWeight: 700,
                 fontSize: '1rem',
               }}
             >
-              Est Pomodoros
+              {id ? 'Act \\ Est Pomodoros' : 'Est Pomodoros'}
             </InputLabel>
+            {id && (
+              <>
+                <InputBase
+                  id="act-pomodoros"
+                  type="number"
+                  value={taskActualCount}
+                  sx={{
+                    width: '75px',
+                    p: 1.25,
+                    backgroundColor: 'rgb(239, 239, 239)',
+                    borderRadius: '6px',
+                    fontWeight: 700,
+                    color: 'rgb(187, 187, 187)',
+                  }}
+                  inputProps={{ min: 0, max: 99 }}
+                  onChange={(e) => {
+                    handleActualCountChange(e);
+                  }}
+                ></InputBase>
+                <Typography
+                  variant="body1"
+                  component="span"
+                  sx={{ mx: 0.75, color: 'rgb(170, 170, 170)' }}
+                >
+                  /
+                </Typography>
+              </>
+            )}
             <InputBase
               id="est-pomodoros"
               variant="filled"
               type="number"
               label="Est Pomodoros"
-              value={inputCount}
-              slotProps={{
-                input: {
-                  min: 0,
-                  max: 99,
-                },
-              }}
+              value={taskEstimatedCount}
               sx={{
                 width: '75px',
                 backgroundColor: 'rgb(239, 239, 239)',
@@ -137,7 +167,7 @@ const EditTask = ({
                 fontWeight: 700,
               }}
               onChange={(e) => {
-                handleEsimatedPomodoros(e);
+                handleEsimatedCountChange(e);
               }}
             ></InputBase>
             <IconButton

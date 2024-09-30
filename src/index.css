@@ -16,14 +16,14 @@ body {
   background-color: pink;
 }
 
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
+input[type='number'][id='est-pomodoros']::-webkit-inner-spin-button,
+input[type='number'][id='est-pomodoros']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Dlaczego tu dodajemy wartosc textfield? */
-input[type='number'] {
+input[type='number'][id='est-pomodoros'] {
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
   appearance: textfield;
