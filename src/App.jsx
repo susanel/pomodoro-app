@@ -1,16 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 
 import NavigationBar from './components/NavigationBar';
 import HomePage from './pages/HomePage/HomePage';
-import { modesOrder } from './data/data';
+import { modes, modesOrder } from './data/data';
 import { getPaletteColor } from './utils/color';
 import { POMODORO_MODE } from './utils/constants';
 
 function App() {
   const [pomodoroMode, setPomodoroMode] = useState(POMODORO_MODE.POMODORO);
   const [modeCount, setModeCount] = useState(1);
+
+  useEffect(() => {
+    handleFaviconChange();
+  }, [pomodoroMode]);
 
   const handleModeChange = (mode) => {
     if (!mode) {
@@ -19,6 +23,13 @@ function App() {
       return setPomodoroMode(modesOrder[newMode - 1].type);
     }
     return setPomodoroMode(mode);
+  };
+
+  const handleFaviconChange = () => {
+    const faviconPath = modes.find((m) => m.type === pomodoroMode).faviconPath;
+
+    const link = document.querySelector("link[rel~='icon']");
+    link.href = faviconPath;
   };
 
   return (
