@@ -11,6 +11,8 @@ import { modes } from '../../data/data';
 import TimeBar from '../../components/TimeBar';
 import { getPaletteColor } from '../../utils/color';
 import { POMODORO_MODE } from '../../utils/constants';
+import alarmSound from '../../assets/audio/alarm.mp3';
+import clickSound from '../../assets/audio/click.mp3';
 
 dayjs.extend(duration);
 
@@ -30,7 +32,6 @@ const Timer = ({
     modes.find((m) => m.type === pomodoroMode).duration
   );
   const [isCounting, setIsCounting] = useState(false);
-  // const [mode]
 
   const handleTimerModeChange = (e, mode) => {
     // e.preventDefault();
@@ -66,6 +67,9 @@ const Timer = ({
         actualCount: activeTask.actualCount + 1,
       });
       setIsCounting(false);
+      const audio = new Audio(alarmSound);
+      audio.play();
+      handleModeChange();
     }
 
     handleDocumentTitle();
@@ -102,6 +106,12 @@ const Timer = ({
     }
   };
 
+  const handleTimer = () => {
+    const audio = new Audio(clickSound);
+    audio.play();
+    setIsCounting(!isCounting);
+  };
+
   const calculateCurrentTaskDuration = () => {
     const durationInMins = modes
       .find((m) => m.type === pomodoroMode)
@@ -121,7 +131,9 @@ const Timer = ({
       .find((m) => m.type === pomodoroMode)
       .duration.asSeconds();
     const multiplier =
-      pomodoroMode === POMODORO_MODE.POMODORO && activeTask ? activeTask.estimatedCount : 1;
+      pomodoroMode === POMODORO_MODE.POMODORO && activeTask
+        ? activeTask.estimatedCount
+        : 1;
     const max = Math.floor(modeDuration * multiplier);
 
     return ((max - timer.asSeconds()) / max) * 100;
@@ -192,9 +204,7 @@ const Timer = ({
                 '&:hover': { boxShadow: 'none' },
               }),
             }}
-            onClick={() => {
-              setIsCounting(!isCounting);
-            }}
+            onClick={() => handleTimer()}
           >
             {isCounting ? 'pause' : 'start'}
           </Button>
