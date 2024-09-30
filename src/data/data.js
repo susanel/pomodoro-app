@@ -6,33 +6,33 @@ import { POMODORO_MODE } from '../utils/constants';
 dayjs.extend(duration);
 
 export const defaultTasks = [
-  // {
-  //   id: uuidv4(),
-  //   title: 'Learn SQL',
-  //   note: '',
-  //   estimatedCount: 1,
-  //   actualCount: 1,
-  //   isDone: false,
-  //   type: 'display', //?
-  // },
-  // {
-  //   id: uuidv4(),
-  //   title: 'Learn RTL',
-  //   note: 'Test note',
-  //   estimatedCount: 4,
-  //   actualCount: 1,
-  //   isDone: false,
-  //   type: 'display',
-  // },
-  // {
-  //   id: uuidv4(),
-  //   title: 'Answear Email',
-  //   note: '',
-  //   estimatedCount: 0.1,
-  //   actualCount: 0,
-  //   isDone: false,
-  //   type: 'display',
-  // },
+  {
+    id: uuidv4(),
+    title: 'Learn SQL',
+    note: '',
+    estimatedCount: 1,
+    actualCount: 1,
+    isDone: false,
+    type: 'display', //?
+  },
+  {
+    id: uuidv4(),
+    title: 'Learn RTL',
+    note: 'Test note',
+    estimatedCount: 4,
+    actualCount: 1,
+    isDone: false,
+    type: 'display',
+  },
+  {
+    id: uuidv4(),
+    title: 'Answear Email',
+    note: '',
+    estimatedCount: 0.1,
+    actualCount: 0,
+    isDone: false,
+    type: 'display',
+  },
 ];
 
 export const modes = [
