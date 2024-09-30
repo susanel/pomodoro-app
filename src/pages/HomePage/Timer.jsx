@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import { modes } from '../../data/data';
 import TimeBar from '../../components/TimeBar';
 import { getPaletteColor } from '../../utils/color';
+import { POMODORO_MODE } from '../../utils/constants';
 
 dayjs.extend(duration);
 
@@ -40,7 +41,7 @@ const Timer = ({
   };
 
   useEffect(() => {
-    if (pomodoroMode !== 'pomodoro') return;
+    if (pomodoroMode !== POMODORO_MODE.POMODORO) return;
     if (!activeTask)
       return setTimer(modes.find((m) => m.type === pomodoroMode).duration);
     // if (activeTask.estimatedCount >= 1) return;
@@ -73,11 +74,11 @@ const Timer = ({
   const handleDocumentTitle = () => {
     let titleText = '';
     switch (pomodoroMode) {
-      case 'pomodoro':
+      case POMODORO_MODE.POMODORO:
         titleText = activeTask ? activeTask.title : 'Time to focus!';
         break;
-      case 'short break':
-      case 'long break':
+      case POMODORO_MODE.SHORT_BREAK:
+      case POMODORO_MODE.LONG_BREAK:
         titleText = 'Time for a break!';
         break;
     }
@@ -92,7 +93,7 @@ const Timer = ({
 
   const handleSkipCurrentMode = () => {
     handleModeChange();
-    if (pomodoroMode === 'pomodoro' && activeTask) {
+    if (pomodoroMode === POMODORO_MODE.POMODORO && activeTask) {
       handleEditTask(activeTask.id, {
         actualCount:
           activeTask.actualCount +
@@ -120,7 +121,7 @@ const Timer = ({
       .find((m) => m.type === pomodoroMode)
       .duration.asSeconds();
     const multiplier =
-      pomodoroMode === 'pomodoro' && activeTask ? activeTask.estimatedCount : 1;
+      pomodoroMode === POMODORO_MODE.POMODORO && activeTask ? activeTask.estimatedCount : 1;
     const max = Math.floor(modeDuration * multiplier);
 
     return ((max - timer.asSeconds()) / max) * 100;
@@ -143,20 +144,20 @@ const Timer = ({
       >
         <Box sx={{ m: '0 auto' }}>
           <Button
-            {...getButtonStyles(pomodoroMode, 'pomodoro')}
-            onClick={(e) => handleTimerModeChange(e, 'pomodoro')}
+            {...getButtonStyles(pomodoroMode, POMODORO_MODE.POMODORO)}
+            onClick={(e) => handleTimerModeChange(e, POMODORO_MODE.POMODORO)}
           >
             Pomodoro
           </Button>
           <Button
-            {...getButtonStyles(pomodoroMode, 'short break')}
-            onClick={(e) => handleTimerModeChange(e, 'short break')}
+            {...getButtonStyles(pomodoroMode, POMODORO_MODE.SHORT_BREAK)}
+            onClick={(e) => handleTimerModeChange(e, POMODORO_MODE.SHORT_BREAK)}
           >
             Short Break
           </Button>
           <Button
-            {...getButtonStyles(pomodoroMode, 'long break')}
-            onClick={(e) => handleTimerModeChange(e, 'long break')}
+            {...getButtonStyles(pomodoroMode, POMODORO_MODE.LONG_BREAK)}
+            onClick={(e) => handleTimerModeChange(e, POMODORO_MODE.LONG_BREAK)}
           >
             Long Break
           </Button>
