@@ -40,16 +40,19 @@ export const modes = [
     type: POMODORO_MODE.POMODORO,
     duration: dayjs.duration(25, 'minutes'),
     color: 'pomodoro.red',
+    faviconPath: '/src/assets/favicon_red.svg'
   },
   {
     type: POMODORO_MODE.SHORT_BREAK,
     duration: dayjs.duration(5, 'minutes'),
     color: 'pomodoro.green',
+    faviconPath: '/src/assets/favicon_green.svg'
   },
   {
     type: POMODORO_MODE.LONG_BREAK,
     duration: dayjs.duration(15, 'minutes'),
     color: 'pomodoro.blue',
+    faviconPath: '/src/assets/favicon_blue.svg'
   },
 ];
 
