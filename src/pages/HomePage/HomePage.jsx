@@ -7,10 +7,12 @@ import Timer from './Timer';
 import TaskList from './TaskList';
 import Summary from './Summary';
 import { defaultTasks } from '../../data/data';
+import { POMODORO_MODE } from '../../utils/constants';
 
 const HomePage = ({ pomodoroMode, handleModeChange }) => {
   const [tasks, setTasks] = useState(defaultTasks);
   const [activeTask, setActiveTask] = useState(tasks[0] || null);
+  const [isCounting, setIsCounting] = useState(false);
 
   const handleAddTask = (task) => {
     const newTask = { ...task, id: uuidv4(), type: 'display' };
@@ -44,6 +46,16 @@ const HomePage = ({ pomodoroMode, handleModeChange }) => {
   };
 
   const handleChangeActiveTask = (id) => {
+    if (isCounting && pomodoroMode === POMODORO_MODE.POMODORO) {
+      const shouldChangeTask = confirm(
+        'The timer will be reset. Do you want to switch task?'
+      );
+      console.log('shouldChangeTask', shouldChangeTask);
+      if (!shouldChangeTask) return;
+    } else if (pomodoroMode !== POMODORO_MODE.POMODORO) {
+      return setActiveTask(tasks.find((t) => t.id === id));
+    }
+    setIsCounting(false);
     setActiveTask(tasks.find((t) => t.id === id));
   };
 
@@ -55,6 +67,8 @@ const HomePage = ({ pomodoroMode, handleModeChange }) => {
       }}
     >
       <Timer
+        isCounting={isCounting}
+        setIsCounting={setIsCounting}
         pomodoroMode={pomodoroMode}
         handleEditTask={handleEditTask}
         handleModeChange={handleModeChange}

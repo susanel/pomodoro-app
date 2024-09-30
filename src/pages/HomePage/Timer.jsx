@@ -27,11 +27,12 @@ const Timer = ({
   handleEditTask,
   handleModeChange,
   activeTask,
+  isCounting,
+  setIsCounting,
 }) => {
   const [timer, setTimer] = useState(
     modes.find((m) => m.type === pomodoroMode).duration
   );
-  const [isCounting, setIsCounting] = useState(false);
 
   const handleTimerModeChange = (e, mode) => {
     // e.preventDefault();
