@@ -11,6 +11,10 @@ import { POMODORO_MODE } from './utils/constants';
 function App() {
   const [pomodoroMode, setPomodoroMode] = useState(POMODORO_MODE.POMODORO);
   const [modeCount, setModeCount] = useState(1);
+  const [tasksIteration, setTasksIteration] = useState({
+    count: 1,
+    isCompleted: false,
+  });
 
   useEffect(() => {
     handleFaviconChange();
@@ -18,12 +22,29 @@ function App() {
 
   const handleModeChange = (mode) => {
     if (!mode) {
-      const newMode = modeCount === 8 ? 1 : modeCount + 1;
-      setModeCount(newMode);
-      return setPomodoroMode(modesOrder[newMode - 1].type);
+      const newModeCount = modeCount === 8 ? 1 : modeCount + 1;
+      const newMode = modesOrder[newModeCount - 1].type;
+      setModeCount(newModeCount);
+      return setPomodoroMode(newMode);
     }
     return setPomodoroMode(mode);
   };
+
+  const handleTasksIterationChange = (data) => {
+    setTasksIteration({ ...tasksIteration, ...data });
+  };
+
+  useEffect(() => {
+    if (pomodoroMode === POMODORO_MODE.POMODORO && tasksIteration.isCompleted) {
+      setTasksIteration({
+        count: tasksIteration.count + 1,
+        isCompleted: false,
+      });
+    }
+  }, [pomodoroMode]);
+
+  useEffect(() => {
+  }, [tasksIteration]);
 
   const handleFaviconChange = () => {
     const faviconPath = modes.find((m) => m.type === pomodoroMode).faviconPath;
@@ -43,6 +64,8 @@ function App() {
       <HomePage
         pomodoroMode={pomodoroMode}
         handleModeChange={handleModeChange}
+        tasksIteration={tasksIteration}
+        handleTasksIterationChange={handleTasksIterationChange}
       />
     </Box>
   );

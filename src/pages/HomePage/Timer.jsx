@@ -29,6 +29,7 @@ const Timer = ({
   activeTask,
   isCounting,
   setIsCounting,
+  handleTasksIterationChange,
 }) => {
   const [timer, setTimer] = useState(
     modes.find((m) => m.type === pomodoroMode).duration
@@ -71,6 +72,9 @@ const Timer = ({
       const audio = new Audio(alarmSound);
       audio.play();
       handleModeChange();
+
+      if (pomodoroMode === POMODORO_MODE.POMODORO)
+        handleTasksIterationChange({ isCompleted: true });
     }
 
     handleDocumentTitle();
@@ -105,6 +109,9 @@ const Timer = ({
           (activeTask.estimatedCount <= 1 ? activeTask.estimatedCount : 1),
       });
     }
+
+    if (pomodoroMode === POMODORO_MODE.POMODORO)
+      handleTasksIterationChange({ isCompleted: true });
   };
 
   const handleTimer = () => {
@@ -128,11 +135,12 @@ const Timer = ({
   };
 
   const countTaskProgress = () => {
+    if (!activeTask) return 0;
     const modeDuration = modes
       .find((m) => m.type === pomodoroMode)
       .duration.asSeconds();
     const multiplier =
-      pomodoroMode === POMODORO_MODE.POMODORO && activeTask
+      pomodoroMode === POMODORO_MODE.POMODORO && activeTask.estimatedCount < 1
         ? activeTask.estimatedCount
         : 1;
     const max = Math.floor(modeDuration * multiplier);
