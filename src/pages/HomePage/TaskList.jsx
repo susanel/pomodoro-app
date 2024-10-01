@@ -13,13 +13,13 @@ import EditTask from './EditTask';
 const TaskList = ({
   activeTask,
   tasks,
+  tasksIteration,
   handleAddTask,
   handleEditTask,
   handleDeleteTask,
   handleChangeActiveTask,
 }) => {
   const [showEditTask, setShowEditTask] = useState(false);
-  const [tasksIteration, setTasksIteration] = useState(1);
 
   const handleShowEditTask = () => {
     setShowEditTask(!showEditTask);
@@ -29,7 +29,7 @@ const TaskList = ({
     <Box sx={{ width: '480px', m: '8px auto 0' }}>
       <Box>
         <Typography variant="body1" align="center" sx={{ opacity: '0.6' }}>
-          #{tasksIteration}
+          #{tasksIteration.count}
         </Typography>
         <Typography variant="body1" fontSize="18px" align="center">
           {tasks.find((t) => t.isActive)?.title || 'Time to focus!'}

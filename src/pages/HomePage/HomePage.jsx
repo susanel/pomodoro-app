@@ -9,7 +9,12 @@ import Summary from './Summary';
 import { defaultTasks } from '../../data/data';
 import { POMODORO_MODE } from '../../utils/constants';
 
-const HomePage = ({ pomodoroMode, handleModeChange }) => {
+const HomePage = ({
+  pomodoroMode,
+  handleModeChange,
+  tasksIteration,
+  handleTasksIterationChange,
+}) => {
   const [tasks, setTasks] = useState(defaultTasks);
   const [activeTask, setActiveTask] = useState(tasks[0] || null);
   const [isCounting, setIsCounting] = useState(false);
@@ -73,10 +78,12 @@ const HomePage = ({ pomodoroMode, handleModeChange }) => {
         handleEditTask={handleEditTask}
         handleModeChange={handleModeChange}
         activeTask={activeTask}
+        handleTasksIterationChange={handleTasksIterationChange}
       />
       <TaskList
         activeTask={activeTask}
         tasks={tasks}
+        tasksIteration={tasksIteration}
         handleAddTask={handleAddTask}
         handleEditTask={handleEditTask}
         handleDeleteTask={handleDeleteTask}
