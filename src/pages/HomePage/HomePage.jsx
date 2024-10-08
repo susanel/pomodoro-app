@@ -35,8 +35,17 @@ const HomePage = ({
       );
       return setTasks(updatedTasks);
     }
+    if (
+      data.type === 'edit' &&
+      tasks.some((t) => t.id !== taskId && t.type === 'edit')
+    ) {
+      const shouldEditAnotherTask = confirm(
+        'The change will be lost. Are you sure you want to close it?'
+      );
+      if (!shouldEditAnotherTask) return;
+    }
     const newTasks = tasks.map((t) =>
-      t.id === taskId ? { ...t, ...data } : t
+      t.id === taskId ? { ...t, ...data } : { ...t, type: 'display' }
     );
 
     if (taskId === activeTask?.id) {
