@@ -5,6 +5,8 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
+import { TASK_TYPE } from '../../utils/constants';
+
 const Task = ({ isActive, task, handleEditTask, handleChangeActiveTask }) => {
   const { id, title, note, actualCount, estimatedCount } = task;
   return (
@@ -87,7 +89,7 @@ const Task = ({ isActive, task, handleEditTask, handleChangeActiveTask }) => {
           sx={{ ml: 2.25, py: 0.25, px: 0.5 }}
           onClick={(e) => {
             e.stopPropagation();
-            handleEditTask(id, { type: 'edit' });
+            handleEditTask(id, { type: TASK_TYPE.EDIT });
           }}
         >
           <MoreIcon />
