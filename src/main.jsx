@@ -12,24 +12,6 @@ let theme = createTheme({
       green: 'rgb(56, 133, 138)',
       blue: 'rgb(57, 112, 151)',
     },
-    // pomoRed: {
-    //   main: 'rgb(186, 73, 73)',
-    //   light: 'rgba(255, 255, 255, 0.1)',
-    //   dark: 'rgba(0, 0, 0, 0.1)',
-    //   darker: 'rgba(0, 0, 0, 0.15)',
-    // },
-    // pomoGreen: {
-    //   main: 'rgb(56, 133, 138)',
-    //   light: 'rgba(255, 255, 255, 0.1)',
-    //   dark: 'rgba(0, 0, 0, 0.1)',
-    //   darker: 'rgba(0, 0, 0, 0.15)',
-    // },
-    // pomoBlue: {
-    //   main: 'rgb(57, 112, 151)',
-    //   light: 'rgba(255, 255, 255, 0.1)',
-    //   dark: 'rgba(0, 0, 0, 0.1)',
-    //   darker: 'rgba(0, 0, 0, 0.15)',
-    // },
   },
 });
 
@@ -66,7 +48,6 @@ theme = createTheme(theme, {
                 textTransform: 'none',
                 '&:hover': {
                   boxShadow: 'none',
-                  // opacity: 1,
                 },
               },
             },
@@ -137,7 +118,6 @@ theme = createTheme(theme, {
             {
               props: { variant: 'outlined' },
               style: {
-                // backgroundColor: 'rgba(255, 255, 255, 0.2)',
                 border: '1px solid rgb(223, 223, 223)',
                 borderRadius: '4px',
                 color: '#868686',

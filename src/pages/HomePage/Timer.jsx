@@ -36,8 +36,6 @@ const Timer = ({
   );
 
   const handleTimerModeChange = (e, mode) => {
-    // e.preventDefault();
-
     setIsCounting(false);
     setTimer(modes.find((m) => m.type === mode).duration);
     handleModeChange(mode);
@@ -47,7 +45,6 @@ const Timer = ({
     if (pomodoroMode !== POMODORO_MODE.POMODORO) return;
     if (!activeTask)
       return setTimer(modes.find((m) => m.type === pomodoroMode).duration);
-    // if (activeTask.estimatedCount >= 1) return;
 
     calculateCurrentTaskDuration(activeTask);
   }, [activeTask]);
@@ -101,6 +98,7 @@ const Timer = ({
   }, [pomodoroMode]);
 
   const handleSkipCurrentMode = () => {
+    setIsCounting(false);
     handleModeChange();
     if (pomodoroMode === POMODORO_MODE.POMODORO && activeTask) {
       handleEditTask(activeTask.id, {

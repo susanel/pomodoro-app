@@ -64,7 +64,6 @@ const HomePage = ({
       const shouldChangeTask = confirm(
         'The timer will be reset. Do you want to switch task?'
       );
-      console.log('shouldChangeTask', shouldChangeTask);
       if (!shouldChangeTask) return;
     } else if (pomodoroMode !== POMODORO_MODE.POMODORO) {
       return setActiveTask(tasks.find((t) => t.id === id));
