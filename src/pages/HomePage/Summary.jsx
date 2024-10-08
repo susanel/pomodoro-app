@@ -61,7 +61,6 @@ const Summary = ({ tasks }) => {
             mx: 0.5,
             fontWeight: 700,
             color: 'rgb(255, 255, 255)',
-            // letterSpacing: '3px',
           }}
         >
           {getFinishAt(tasks).format('H:m')}
