@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { v4 as uuidv4 } from 'uuid';
-import { POMODORO_MODE } from '../utils/constants';
+import { POMODORO_MODE, TASK_TYPE } from '../utils/constants';
 
 dayjs.extend(duration);
 
@@ -13,7 +13,7 @@ export const defaultTasks = [
     estimatedCount: 1,
     actualCount: 1,
     isDone: false,
-    type: 'display', //?
+    type: TASK_TYPE.DISPLAY,
   },
   {
     id: uuidv4(),
@@ -22,7 +22,7 @@ export const defaultTasks = [
     estimatedCount: 4,
     actualCount: 1,
     isDone: false,
-    type: 'display',
+    type: TASK_TYPE.DISPLAY,
   },
   {
     id: uuidv4(),
@@ -31,7 +31,7 @@ export const defaultTasks = [
     estimatedCount: 0.1,
     actualCount: 0,
     isDone: false,
-    type: 'display',
+    type: TASK_TYPE.DISPLAY,
   },
 ];
 
@@ -40,19 +40,19 @@ export const modes = [
     type: POMODORO_MODE.POMODORO,
     duration: dayjs.duration(25, 'minutes'),
     color: 'pomodoro.red',
-    faviconPath: '/src/assets/favicon_red.svg'
+    faviconPath: '/src/assets/favicon_red.svg',
   },
   {
     type: POMODORO_MODE.SHORT_BREAK,
     duration: dayjs.duration(5, 'minutes'),
     color: 'pomodoro.green',
-    faviconPath: '/src/assets/favicon_green.svg'
+    faviconPath: '/src/assets/favicon_green.svg',
   },
   {
     type: POMODORO_MODE.LONG_BREAK,
     duration: dayjs.duration(15, 'minutes'),
     color: 'pomodoro.blue',
-    faviconPath: '/src/assets/favicon_blue.svg'
+    faviconPath: '/src/assets/favicon_blue.svg',
   },
 ];
 

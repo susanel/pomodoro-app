@@ -12,6 +12,7 @@ import InputBase from '@mui/material/InputBase';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Typography } from '@mui/material';
+import { TASK_TYPE } from '../../utils/constants';
 
 const EditTask = ({
   task,
@@ -81,14 +82,14 @@ const EditTask = ({
         estimatedCount: taskEstimatedCount,
         actualCount: taskActualCount,
         note: taskNote,
-        type: 'display',
+        type: TASK_TYPE.DISPLAY,
       });
     }
   };
 
   const handleCancelTask = () => {
     if (!id) return handleShowEditTask();
-    return handleEditTask(id, { type: 'display' });
+    return handleEditTask(id, { type: TASK_TYPE.DISPLAY });
   };
 
   return (

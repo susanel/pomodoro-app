@@ -7,7 +7,7 @@ import Timer from './Timer';
 import TaskList from './TaskList';
 import Summary from './Summary';
 import { defaultTasks } from '../../data/data';
-import { POMODORO_MODE } from '../../utils/constants';
+import { POMODORO_MODE, TASK_TYPE } from '../../utils/constants';
 
 const HomePage = ({
   pomodoroMode,
@@ -20,7 +20,7 @@ const HomePage = ({
   const [isCounting, setIsCounting] = useState(false);
 
   const handleAddTask = (task) => {
-    const newTask = { ...task, id: uuidv4(), type: 'display' };
+    const newTask = { ...task, id: uuidv4(), type: TASK_TYPE.DISPLAY };
     if (!tasks.length) setActiveTask(newTask);
     setTasks([...tasks, { ...newTask }]);
   };
@@ -45,7 +45,7 @@ const HomePage = ({
       if (!shouldEditAnotherTask) return;
     }
     const newTasks = tasks.map((t) =>
-      t.id === taskId ? { ...t, ...data } : { ...t, type: 'display' }
+      t.id === taskId ? { ...t, ...data } : { ...t, type: TASK_TYPE.DISPLAY }
     );
 
     if (taskId === activeTask?.id) {
