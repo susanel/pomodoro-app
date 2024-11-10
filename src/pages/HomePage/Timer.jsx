@@ -31,20 +31,17 @@ const Timer = ({
   setIsCounting,
   handleTasksIterationChange,
 }) => {
-  const [timer, setTimer] = useState(
-    modes.find((m) => m.type === pomodoroMode).duration
-  );
+  const [timer, setTimer] = useState(modes[pomodoroMode].duration);
 
   const handleTimerModeChange = (e, mode) => {
     setIsCounting(false);
-    setTimer(modes.find((m) => m.type === mode).duration);
+    setTimer(modes[mode].duration);
     handleModeChange(mode);
   };
 
   useEffect(() => {
     if (pomodoroMode !== POMODORO_MODE.POMODORO) return;
-    if (!activeTask)
-      return setTimer(modes.find((m) => m.type === pomodoroMode).duration);
+    if (!activeTask) return setTimer(modes[pomodoroMode].duration);
 
     calculateCurrentTaskDuration(activeTask);
   }, [activeTask]);
@@ -94,7 +91,7 @@ const Timer = ({
 
   useEffect(() => {
     setIsCounting(false);
-    setTimer(modes.find((m) => m.type === pomodoroMode).duration);
+    setTimer(modes[pomodoroMode].duration);
   }, [pomodoroMode]);
 
   const handleSkipCurrentMode = () => {
@@ -119,9 +116,7 @@ const Timer = ({
   };
 
   const calculateCurrentTaskDuration = () => {
-    const durationInMins = modes
-      .find((m) => m.type === pomodoroMode)
-      .duration.asMinutes();
+    const durationInMins = modes[pomodoroMode].duration.asMinutes();
 
     const updatedDuration = dayjs.duration(
       durationInMins *
@@ -134,9 +129,7 @@ const Timer = ({
 
   const countTaskProgress = () => {
     if (!activeTask) return 0;
-    const modeDuration = modes
-      .find((m) => m.type === pomodoroMode)
-      .duration.asSeconds();
+    const modeDuration = modes[pomodoroMode].duration.asSeconds();
     const multiplier =
       pomodoroMode === POMODORO_MODE.POMODORO && activeTask.estimatedCount < 1
         ? activeTask.estimatedCount

@@ -39,26 +39,23 @@ export const defaultTasks = [
   },
 ];
 
-export const modes = [
-  {
-    type: POMODORO_MODE.POMODORO,
+export const modes = {
+  [POMODORO_MODE.POMODORO]: {
     duration: dayjs.duration(25, 'minutes'),
     color: 'pomodoro.red',
     faviconPath: svg_red,
   },
-  {
-    type: POMODORO_MODE.SHORT_BREAK,
+  [POMODORO_MODE.SHORT_BREAK]: {
     duration: dayjs.duration(5, 'minutes'),
     color: 'pomodoro.green',
     faviconPath: svg_green,
   },
-  {
-    type: POMODORO_MODE.LONG_BREAK,
+  [POMODORO_MODE.LONG_BREAK]: {
     duration: dayjs.duration(15, 'minutes'),
     color: 'pomodoro.blue',
     faviconPath: svg_blue,
   },
-];
+};
 
 export const modesOrder = [
   { id: 1, type: POMODORO_MODE.POMODORO },
