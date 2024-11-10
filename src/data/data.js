@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { v4 as uuidv4 } from 'uuid';
-import { POMODORO_MODE, TASK_TYPE } from '../utils/constants';
+import { POMODORO_MODE } from '../utils/constants';
 
 import svg_red from '../assets/favicon_red.svg';
 import svg_green from '../assets/favicon_green.svg';
@@ -17,7 +17,6 @@ export const defaultTasks = [
     estimatedCount: 1,
     actualCount: 1,
     isDone: false,
-    type: TASK_TYPE.DISPLAY,
   },
   {
     id: uuidv4(),
@@ -26,7 +25,6 @@ export const defaultTasks = [
     estimatedCount: 4,
     actualCount: 1,
     isDone: false,
-    type: TASK_TYPE.DISPLAY,
   },
   {
     id: uuidv4(),
@@ -35,7 +33,6 @@ export const defaultTasks = [
     estimatedCount: 0.1,
     actualCount: 0,
     isDone: false,
-    type: TASK_TYPE.DISPLAY,
   },
 ];
 

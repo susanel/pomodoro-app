@@ -12,17 +12,19 @@ import EditTask from './EditTask';
 
 const TaskList = ({
   activeTask,
+  editedTaskId,
   tasks,
   tasksIteration,
   handleAddTask,
   handleEditTask,
   handleDeleteTask,
   handleChangeActiveTask,
+  handleChangeEditedTask,
 }) => {
-  const [showEditTask, setShowEditTask] = useState(false);
+  const [showNewTask, setShowNewTask] = useState(false);
 
-  const handleShowEditTask = () => {
-    setShowEditTask(!showEditTask);
+  const handleShowNewTask = () => {
+    setShowNewTask(!showNewTask);
   };
 
   return (
@@ -52,43 +54,46 @@ const TaskList = ({
         </IconButton>
       </Box>
       {tasks.map((task) => {
-        return task.type === 'display' ? (
-          <Task
-            isActive={task.id === activeTask?.id}
-            key={task.id}
-            task={task}
-            handleEditTask={handleEditTask}
-            handleChangeActiveTask={handleChangeActiveTask}
-          />
-        ) : (
+        return task.id === editedTaskId ? (
           <EditTask
             key={task.id}
             task={task}
             handleAddTask={handleAddTask}
             handleEditTask={handleEditTask}
             handleDeleteTask={handleDeleteTask}
-            handleShowEditTask={handleShowEditTask}
+            handleShowNewTask={handleShowNewTask}
+            handleChangeEditedTask={handleChangeEditedTask}
+          />
+        ) : (
+          <Task
+            isActive={task.id === activeTask?.id}
+            editedTaskId={editedTaskId}
+            key={task.id}
+            task={task}
+            handleEditTask={handleEditTask}
+            handleChangeActiveTask={handleChangeActiveTask}
+            handleChangeEditedTask={handleChangeEditedTask}
           />
         );
       })}
       <Box sx={{ mt: 1.5 }}>
-        {!showEditTask && (
+        {!showNewTask && (
           <Button
             variant="dashed"
             sx={{ p: 0, lineHeight: '60px', width: '100%' }}
             startIcon={<AddCircleIcon fontSize="large" />}
             onClick={() => {
-              handleShowEditTask();
+              handleShowNewTask();
             }}
           >
             Add Task
           </Button>
         )}
-        {showEditTask && (
+        {showNewTask && (
           <EditTask
             handleAddTask={handleAddTask}
             handleEditTask={handleEditTask}
-            handleShowEditTask={handleShowEditTask}
+            handleShowNewTask={handleShowNewTask}
           />
         )}
       </Box>

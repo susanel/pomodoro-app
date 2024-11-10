@@ -7,7 +7,7 @@ import Timer from './Timer';
 import TaskList from './TaskList';
 import Summary from './Summary';
 import { defaultTasks } from '../../data/data';
-import { POMODORO_MODE, TASK_TYPE } from '../../utils/constants';
+import { POMODORO_MODE } from '../../utils/constants';
 
 const HomePage = ({
   pomodoroMode,
@@ -17,10 +17,11 @@ const HomePage = ({
 }) => {
   const [tasks, setTasks] = useState(defaultTasks);
   const [activeTask, setActiveTask] = useState(tasks[0] || null);
+  const [editedTaskId, setEditedTaskId] = useState(null);
   const [isCounting, setIsCounting] = useState(false);
 
   const handleAddTask = (task) => {
-    const newTask = { ...task, id: uuidv4(), type: TASK_TYPE.DISPLAY };
+    const newTask = { ...task, id: uuidv4() };
     if (!tasks.length) setActiveTask(newTask);
     setTasks([...tasks, { ...newTask }]);
   };
@@ -35,17 +36,8 @@ const HomePage = ({
       );
       return setTasks(updatedTasks);
     }
-    if (
-      data.type === 'edit' &&
-      tasks.some((t) => t.id !== taskId && t.type === 'edit')
-    ) {
-      const shouldEditAnotherTask = confirm(
-        'The change will be lost. Are you sure you want to close it?'
-      );
-      if (!shouldEditAnotherTask) return;
-    }
     const newTasks = tasks.map((t) =>
-      t.id === taskId ? { ...t, ...data } : { ...t, type: TASK_TYPE.DISPLAY }
+      t.id === taskId ? { ...t, ...data } : { ...t }
     );
 
     if (taskId === activeTask?.id) {
@@ -72,6 +64,10 @@ const HomePage = ({
     setActiveTask(tasks.find((t) => t.id === id));
   };
 
+  const handleChangeEditedTask = (id) => {
+    return setEditedTaskId(id);
+  };
+
   return (
     <Box
       sx={{
@@ -90,12 +86,14 @@ const HomePage = ({
       />
       <TaskList
         activeTask={activeTask}
+        editedTaskId={editedTaskId}
         tasks={tasks}
         tasksIteration={tasksIteration}
         handleAddTask={handleAddTask}
         handleEditTask={handleEditTask}
         handleDeleteTask={handleDeleteTask}
         handleChangeActiveTask={handleChangeActiveTask}
+        handleChangeEditedTask={handleChangeEditedTask}
       />
       {!!tasks.length && <Summary tasks={tasks} />}
     </Box>

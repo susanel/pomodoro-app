@@ -5,9 +5,14 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-import { TASK_TYPE } from '../../utils/constants';
-
-const Task = ({ isActive, task, handleEditTask, handleChangeActiveTask }) => {
+const Task = ({
+  isActive,
+  task,
+  editedTaskId,
+  handleEditTask,
+  handleChangeActiveTask,
+  handleChangeEditedTask,
+}) => {
   const { id, title, note, actualCount, estimatedCount } = task;
   return (
     <Card
@@ -89,7 +94,13 @@ const Task = ({ isActive, task, handleEditTask, handleChangeActiveTask }) => {
           sx={{ ml: 2.25, py: 0.25, px: 0.5 }}
           onClick={(e) => {
             e.stopPropagation();
-            handleEditTask(id, { type: TASK_TYPE.EDIT });
+            if (editedTaskId) {
+              const shouldEditAnotherTask = confirm(
+                'The change will be lost. Are you sure you want to close it?'
+              );
+              if (!shouldEditAnotherTask) return;
+            }
+            handleChangeEditedTask(id);
           }}
         >
           <MoreIcon />
