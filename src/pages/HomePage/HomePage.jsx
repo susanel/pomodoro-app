@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 import Box from '@mui/material/Box';
@@ -16,38 +16,28 @@ const HomePage = ({
   handleTasksIterationChange,
 }) => {
   const [tasks, setTasks] = useState(defaultTasks);
-  const [activeTask, setActiveTask] = useState(tasks[0] || null);
+  const [activeTaskId, setActiveTaskId] = useState(tasks[0].id || null);
   const [editedTaskId, setEditedTaskId] = useState(null);
   const [isCounting, setIsCounting] = useState(false);
 
   const handleAddTask = (task) => {
     const newTask = { ...task, id: uuidv4() };
-    if (!tasks.length) setActiveTask(newTask);
+    if (!tasks.length) setActiveTaskId(newTask.id);
     setTasks([...tasks, { ...newTask }]);
   };
 
   const handleEditTask = (taskId, data) => {
-    if (data.isDone) {
-      const updatedTasks = [];
-      tasks.forEach((t) =>
-        t.id === taskId
-          ? updatedTasks.push({ ...t, ...data })
-          : updatedTasks.unshift(t)
-      );
-      return setTasks(updatedTasks);
-    }
     const newTasks = tasks.map((t) =>
       t.id === taskId ? { ...t, ...data } : { ...t }
     );
-
-    if (taskId === activeTask?.id) {
-      setActiveTask({ ...activeTask, ...data });
+    if (Object.hasOwn(data, 'isDone')) {
+      newTasks.sort((a, b) => a.isDone - b.isDone);
     }
     return setTasks([...newTasks]);
   };
 
   const handleDeleteTask = (taskId) => {
-    if (activeTask?.id === taskId) setActiveTask(null);
+    if (activeTaskId === taskId) setActiveTaskId(null);
     setTasks([...tasks.filter((task) => task.id !== taskId)]);
   };
 
@@ -58,10 +48,10 @@ const HomePage = ({
       );
       if (!shouldChangeTask) return;
     } else if (pomodoroMode !== POMODORO_MODE.POMODORO) {
-      return setActiveTask(tasks.find((t) => t.id === id));
+      return setActiveTaskId(tasks.find((t) => t.id === id).id);
     }
     setIsCounting(false);
-    setActiveTask(tasks.find((t) => t.id === id));
+    setActiveTaskId(tasks.find((t) => t.id === id).id);
   };
 
   const handleChangeEditedTask = (id) => {
@@ -81,11 +71,11 @@ const HomePage = ({
         pomodoroMode={pomodoroMode}
         handleEditTask={handleEditTask}
         handleModeChange={handleModeChange}
-        activeTask={activeTask}
+        activeTask={tasks.find((t) => t.id === activeTaskId)}
         handleTasksIterationChange={handleTasksIterationChange}
       />
       <TaskList
-        activeTask={activeTask}
+        activeTaskId={activeTaskId}
         editedTaskId={editedTaskId}
         tasks={tasks}
         tasksIteration={tasksIteration}

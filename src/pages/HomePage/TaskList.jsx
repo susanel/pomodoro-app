@@ -11,7 +11,7 @@ import Task from './Task';
 import EditTask from './EditTask';
 
 const TaskList = ({
-  activeTask,
+  activeTaskId,
   editedTaskId,
   tasks,
   tasksIteration,
@@ -66,7 +66,7 @@ const TaskList = ({
           />
         ) : (
           <Task
-            isActive={task.id === activeTask?.id}
+            isActive={task.id === activeTaskId}
             editedTaskId={editedTaskId}
             key={task.id}
             task={task}
@@ -94,6 +94,7 @@ const TaskList = ({
             handleAddTask={handleAddTask}
             handleEditTask={handleEditTask}
             handleShowNewTask={handleShowNewTask}
+            handleChangeEditedTask={handleChangeEditedTask}
           />
         )}
       </Box>
