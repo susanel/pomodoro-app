@@ -34,7 +34,7 @@ const TaskList = ({
           #{tasksIteration.count}
         </Typography>
         <Typography variant="body1" fontSize="18px" align="center">
-          {tasks.find((t) => t.isActive)?.title || 'Time to focus!'}
+          {tasks.find((t) => t.id === activeTaskId)?.title || 'Time to focus!'}
         </Typography>
       </Box>
       <Box

@@ -72,7 +72,6 @@ const EditTask = ({
         estimatedCount: taskEstimatedCount,
         actualCount: 0,
         note: taskNote,
-        isActive: false,
       };
       handleAddTask(newTask);
       handleShowNewTask();
