@@ -16,7 +16,7 @@ const HomePage = ({
   handleTasksIterationChange,
 }) => {
   const [tasks, setTasks] = useState(defaultTasks);
-  const [activeTaskId, setActiveTaskId] = useState(tasks[0].id || null);
+  const [activeTaskId, setActiveTaskId] = useState(tasks[0]?.id || null);
   const [editedTaskId, setEditedTaskId] = useState(null);
   const [isCounting, setIsCounting] = useState(false);
 
@@ -24,6 +24,7 @@ const HomePage = ({
     const newTask = { ...task, id: uuidv4() };
     if (!tasks.length) setActiveTaskId(newTask.id);
     setTasks([...tasks, { ...newTask }]);
+    handleChangeEditedTask(null)
   };
 
   const handleEditTask = (taskId, data) => {
@@ -39,6 +40,7 @@ const HomePage = ({
   const handleDeleteTask = (taskId) => {
     if (activeTaskId === taskId) setActiveTaskId(null);
     setTasks([...tasks.filter((task) => task.id !== taskId)]);
+    handleChangeEditedTask(null)
   };
 
   const handleChangeActiveTask = (id) => {

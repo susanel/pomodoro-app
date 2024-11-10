@@ -75,7 +75,6 @@ const EditTask = ({
       };
       handleAddTask(newTask);
       handleShowNewTask();
-      handleChangeEditedTask(null);
     } else {
       handleEditTask(id, {
         title: taskTitle,
