@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
+import duration, { Duration } from 'dayjs/plugin/duration';
 import { v4 as uuidv4 } from 'uuid';
 import { POMODORO_MODE } from '../utils/constants';
 
@@ -9,7 +9,24 @@ import svg_blue from '../assets/favicon_blue.svg';
 
 dayjs.extend(duration);
 
-export const defaultTasks = [
+export type Task = {
+  id: string;
+  title: string;
+  note: string;
+  estimatedCount: number;
+  actualCount: number;
+  isDone: boolean;
+};
+
+export type Modes = {
+  [key: string]: { // should be an enum, or one of the values of the pomodoro type
+    duration: Duration;
+    color: string;
+    faviconPath: string
+  }
+}
+
+export const defaultTasks: Task[] = [
   {
     id: uuidv4(),
     title: 'Learn SQL',
@@ -36,7 +53,7 @@ export const defaultTasks = [
   },
 ];
 
-export const modes = {
+export const modes: Modes = {
   [POMODORO_MODE.POMODORO]: {
     duration: dayjs.duration(25, 'minutes'),
     color: 'pomodoro.red',
