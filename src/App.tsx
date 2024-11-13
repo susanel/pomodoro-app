@@ -25,7 +25,7 @@ function App() {
     handleFaviconChange();
   }, [pomodoroMode]);
 
-  const handleModeChange = (mode) => {
+  const handleModeChange = (mode?: POMODORO_MODE) => {
     if (!mode) {
       const newModeCount = modeCount === 8 ? 1 : modeCount + 1;
       const newMode = modesOrder[newModeCount - 1].type;
@@ -35,7 +35,7 @@ function App() {
     return setPomodoroMode(mode);
   };
 
-  const handleTasksIterationChange = (data) => {
+  const handleTasksIterationChange = (data: Partial<TaskIteration>): void => {
     setTasksIteration({ ...tasksIteration, ...data });
   };
 

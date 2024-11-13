@@ -13,37 +13,41 @@ import { getPaletteColor } from '../../utils/color';
 import { POMODORO_MODE } from '../../utils/constants';
 import alarmSound from '../../assets/audio/alarm.mp3';
 import clickSound from '../../assets/audio/click.mp3';
+import { TaskIteration } from '../../App';
 
 dayjs.extend(duration);
 
-const getButtonStyles = (pomodoroMode, buttonMode) => {
+const getButtonStyles = (
+  pomodoroMode: POMODORO_MODE,
+  buttonMode: POMODORO_MODE
+) => {
   return pomodoroMode === buttonMode
     ? { variant: 'contained', color: 'secondary' }
     : { variant: 'text', color: 'primary' };
 };
 
 type TimerProps = {
-  pomodoroMode: POMODORO_MODE;
+  pomodoroMode: POMODORO_MODE; // can take enum?
   activeTask: Task;
   isCounting: boolean;
-  setIsCounting: () => {};
-  handleEditTask: () => {};
-  handleModeChange: () => {};
-  handleTasksIterationChange: () => {};
+  setIsCounting: (isCounting: boolean) => void;
+  handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
+  handleModeChange: (mode?: POMODORO_MODE) => void;
+  handleTasksIterationChange: (data: Partial<TaskIteration>) => void;
 };
 
 const Timer: React.FC<TimerProps> = ({
   pomodoroMode,
   activeTask,
   isCounting,
-  setIsCounting,
+  setIsCounting, // should I pass useState functions down to other components?
   handleEditTask,
   handleModeChange,
   handleTasksIterationChange,
 }) => {
   const [timer, setTimer] = useState(modes[pomodoroMode].duration);
 
-  const handleTimerModeChange = (e, mode) => {
+  const handleTimerModeChange = (mode: POMODORO_MODE) => {
     setIsCounting(false);
     setTimer(modes[mode].duration);
     handleModeChange(mode);
@@ -53,11 +57,11 @@ const Timer: React.FC<TimerProps> = ({
     if (pomodoroMode !== POMODORO_MODE.POMODORO) return;
     if (!activeTask) return setTimer(modes[pomodoroMode].duration);
 
-    calculateCurrentTaskDuration(activeTask);
+    calculateCurrentTaskDuration();
   }, [activeTask]);
 
   useEffect(() => {
-    let intervalId;
+    let intervalId: number;
     if (isCounting) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer.subtract({ seconds: 1 }));
@@ -167,19 +171,19 @@ const Timer: React.FC<TimerProps> = ({
         <Box sx={{ m: '0 auto' }}>
           <Button
             {...getButtonStyles(pomodoroMode, POMODORO_MODE.POMODORO)}
-            onClick={(e) => handleTimerModeChange(e, POMODORO_MODE.POMODORO)}
+            onClick={() => handleTimerModeChange(POMODORO_MODE.POMODORO)}
           >
             Pomodoro
           </Button>
           <Button
             {...getButtonStyles(pomodoroMode, POMODORO_MODE.SHORT_BREAK)}
-            onClick={(e) => handleTimerModeChange(e, POMODORO_MODE.SHORT_BREAK)}
+            onClick={() => handleTimerModeChange(POMODORO_MODE.SHORT_BREAK)}
           >
             Short Break
           </Button>
           <Button
             {...getButtonStyles(pomodoroMode, POMODORO_MODE.LONG_BREAK)}
-            onClick={(e) => handleTimerModeChange(e, POMODORO_MODE.LONG_BREAK)}
+            onClick={() => handleTimerModeChange(POMODORO_MODE.LONG_BREAK)}
           >
             Long Break
           </Button>

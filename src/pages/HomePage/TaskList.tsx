@@ -13,15 +13,15 @@ import { Task } from '../../data/data';
 import { TaskIteration } from '../../App';
 
 type TaskListProps = {
-  activeTaskId: Task['id'];
-  editedTaskId: Task['id'];
+  activeTaskId: Task['id'] | null;
+  editedTaskId: Task['id'] | null;
   tasks: Task[];
   tasksIteration: TaskIteration;
-  handleAddTask: () => {};
-  handleEditTask: () => {};
-  handleDeleteTask: () => {};
-  handleChangeActiveTask: () => {};
-  handleChangeEditedTask: () => {};
+  handleAddTask: (task: Omit<Task, 'id'>) => void;
+  handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
+  handleDeleteTask: (taskId: Task['id']) => void;
+  handleChangeActiveTask: (taskId: Task['id']) => void;
+  handleChangeEditedTask: (taskId: Task['id'] | null) => void;
 };
 
 const TaskList: React.FC<TaskListProps> = ({
@@ -105,8 +105,10 @@ const TaskList: React.FC<TaskListProps> = ({
         )}
         {showNewTask && (
           <EditTaskItem
+            key={'new-task'}
             handleAddTask={handleAddTask}
             handleEditTask={handleEditTask}
+            handleDeleteTask={handleDeleteTask}
             handleShowNewTask={handleShowNewTask}
             handleChangeEditedTask={handleChangeEditedTask}
           />

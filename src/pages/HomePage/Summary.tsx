@@ -1,13 +1,14 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import dayjs from 'dayjs';
+
 import { Task } from '../../data/data';
 
-const getSum = (tasks, sumType) => {
+const getSum = (tasks: Task[], sumType: 'actualCount' | 'estimatedCount') => { // take 2 keys from tasks object <?>
   return tasks.reduce((acc, curr) => acc + curr[sumType], 0);
 };
 
-const getFinishIn = (tasks) => {
+const getFinishIn = (tasks: Task[]) => {
   const timeToFinish = tasks.reduce((acc, curr) => {
     if (curr.estimatedCount > curr.actualCount)
       return acc + (curr.estimatedCount - curr.actualCount) * 25;
@@ -17,7 +18,7 @@ const getFinishIn = (tasks) => {
   return dayjs.duration(timeToFinish, 'minutes');
 };
 
-const getFinishAt = (tasks) => {
+const getFinishAt = (tasks: Task[]) => {
   return dayjs().add(getFinishIn(tasks));
 };
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -8,19 +8,19 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import InputBase from '@mui/material/InputBase';
-
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Typography } from '@mui/material';
+
 import { Task } from '../../data/data';
 
 type EditTaskItemProps = {
-  task: Task;
-  handleAddTask: () => {};
-  handleEditTask: () => {};
-  handleDeleteTask: () => {};
-  handleShowNewTask: () => {};
-  handleChangeEditedTask: () => {};
+  task?: Task;
+  handleAddTask: (task: Omit<Task, 'id'>) => void;
+  handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
+  handleDeleteTask: (taskId: Task['id']) => void;
+  handleShowNewTask: () => void;
+  handleChangeEditedTask: (taskId: Task['id'] | null) => void;
 };
 
 const EditTaskItem: React.FC<EditTaskItemProps> = ({
@@ -59,29 +59,32 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
     return setTaskEstimatedCount(taskEstimatedCount - 1);
   };
 
-  const handleEsimatedCountChange = (e) => {
+  const handleEsimatedCountChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setTaskEstimatedCount(e.target.value * 1);
   };
 
-  const handleActualCountChange = (e) => {
+  const handleActualCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskActualCount(e.target.value * 1);
   };
 
-  const handleTaskTitle = (e) => {
+  const handleTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     return setTaskTitle(e.target.value);
   };
 
-  const handleTaskNote = (e) => {
+  const handleTaskNote = (e: React.ChangeEvent<HTMLInputElement>) => {
     return setTaskNote(e.target.value);
   };
 
-  const handleSaveTask = (e) => {
+  const handleSaveTask = () => {
     if (!task) {
       const newTask = {
         title: taskTitle,
         estimatedCount: taskEstimatedCount,
         actualCount: 0,
         note: taskNote,
+        isDone: false,
       };
       handleAddTask(newTask);
       handleShowNewTask();
