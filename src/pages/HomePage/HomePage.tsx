@@ -8,11 +8,19 @@ import TaskList from './TaskList';
 import Summary from './Summary';
 import { defaultTasks } from '../../data/data';
 import { POMODORO_MODE } from '../../utils/constants';
+import { TaskIteration } from '../../App';
 
-const HomePage = ({
+type HomePageProps = {
+  pomodoroMode: POMODORO_MODE;
+  tasksIteration: TaskIteration;
+  handleModeChange: () => {};
+  handleTasksIterationChange: () => {};
+};
+
+const HomePage: React.FC<HomePageProps> = ({
   pomodoroMode,
-  handleModeChange,
   tasksIteration,
+  handleModeChange,
   handleTasksIterationChange,
 }) => {
   const [tasks, setTasks] = useState(defaultTasks);
@@ -24,10 +32,11 @@ const HomePage = ({
     const newTask = { ...task, id: uuidv4() };
     if (!tasks.length) setActiveTaskId(newTask.id);
     setTasks([...tasks, { ...newTask }]);
-    handleChangeEditedTask(null)
+    handleChangeEditedTask(null);
   };
 
-  const handleEditTask = (taskId, data) => { // czy prefix 'handle' powinnien byc dodany do tej funkcji?
+  const handleEditTask = (taskId, data) => {
+    // czy prefix 'handle' powinnien byc dodany do tej funkcji?
     const newTasks = tasks.map((t) =>
       t.id === taskId ? { ...t, ...data } : { ...t }
     );
@@ -40,7 +49,7 @@ const HomePage = ({
   const handleDeleteTask = (taskId) => {
     if (activeTaskId === taskId) setActiveTaskId(null);
     setTasks([...tasks.filter((task) => task.id !== taskId)]);
-    handleChangeEditedTask(null)
+    handleChangeEditedTask(null);
   };
 
   const handleChangeActiveTask = (id) => {

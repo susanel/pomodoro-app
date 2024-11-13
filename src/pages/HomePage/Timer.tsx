@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import IconButton from '@mui/material/IconButton';
 
-import { modes } from '../../data/data';
+import { modes, Task } from '../../data/data';
 import TimeBar from '../../components/TimeBar';
 import { getPaletteColor } from '../../utils/color';
 import { POMODORO_MODE } from '../../utils/constants';
@@ -22,13 +22,23 @@ const getButtonStyles = (pomodoroMode, buttonMode) => {
     : { variant: 'text', color: 'primary' };
 };
 
-const Timer = ({
+type TimerProps = {
+  pomodoroMode: POMODORO_MODE;
+  activeTask: Task;
+  isCounting: boolean;
+  setIsCounting: () => {};
+  handleEditTask: () => {};
+  handleModeChange: () => {};
+  handleTasksIterationChange: () => {};
+};
+
+const Timer: React.FC<TimerProps> = ({
   pomodoroMode,
-  handleEditTask,
-  handleModeChange,
   activeTask,
   isCounting,
   setIsCounting,
+  handleEditTask,
+  handleModeChange,
   handleTasksIterationChange,
 }) => {
   const [timer, setTimer] = useState(modes[pomodoroMode].duration);

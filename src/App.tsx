@@ -8,6 +8,11 @@ import { modes, modesOrder } from './data/data';
 import { getPaletteColor } from './utils/color';
 import { POMODORO_MODE } from './utils/constants';
 
+export type TaskIteration = { // TODO: add exact numbers for count
+  count: number,
+  isCompleted: boolean
+}
+
 function App() {
   const [pomodoroMode, setPomodoroMode] = useState(POMODORO_MODE.POMODORO);
   const [modeCount, setModeCount] = useState(1);

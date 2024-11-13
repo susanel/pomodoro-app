@@ -1,6 +1,7 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import dayjs from 'dayjs';
+import { Task } from '../../data/data';
 
 const getSum = (tasks, sumType) => {
   return tasks.reduce((acc, curr) => acc + curr[sumType], 0);
@@ -20,7 +21,11 @@ const getFinishAt = (tasks) => {
   return dayjs().add(getFinishIn(tasks));
 };
 
-const Summary = ({ tasks }) => {
+type SummaryProps = {
+  tasks: Task[];
+};
+
+const Summary: React.FC<SummaryProps> = ({ tasks }) => {
   return (
     <Box
       sx={{

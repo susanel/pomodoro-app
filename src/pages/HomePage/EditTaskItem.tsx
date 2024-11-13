@@ -12,8 +12,18 @@ import InputBase from '@mui/material/InputBase';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Typography } from '@mui/material';
+import { Task } from '../../data/data';
 
-const EditTaskItem = ({
+type EditTaskItemProps = {
+  task: Task;
+  handleAddTask: () => {};
+  handleEditTask: () => {};
+  handleDeleteTask: () => {};
+  handleShowNewTask: () => {};
+  handleChangeEditedTask: () => {};
+};
+
+const EditTaskItem: React.FC<EditTaskItemProps> = ({
   task,
   handleAddTask,
   handleEditTask,

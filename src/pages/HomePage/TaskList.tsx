@@ -9,8 +9,22 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import TaskItem from './TaskItem';
 import EditTaskItem from './EditTaskItem';
+import { Task } from '../../data/data';
+import { TaskIteration } from '../../App';
 
-const TaskList = ({
+type TaskListProps = {
+  activeTaskId: Task['id'];
+  editedTaskId: Task['id'];
+  tasks: Task[];
+  tasksIteration: TaskIteration;
+  handleAddTask: () => {};
+  handleEditTask: () => {};
+  handleDeleteTask: () => {};
+  handleChangeActiveTask: () => {};
+  handleChangeEditedTask: () => {};
+};
+
+const TaskList: React.FC<TaskListProps> = ({
   activeTaskId,
   editedTaskId,
   tasks,

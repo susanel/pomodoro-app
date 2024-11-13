@@ -4,8 +4,18 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { Task } from '../../data/data';
 
-const TaskItem = ({
+type TaskItemProps = {
+  task: Task;
+  isActive: boolean;
+  editedTaskId: Task['id'];
+  handleEditTask: () => {};
+  handleChangeActiveTask: () => {};
+  handleChangeEditedTask: () => {};
+};
+
+const TaskItem: React.FC<TaskItemProps> = ({
   isActive,
   task,
   editedTaskId,
