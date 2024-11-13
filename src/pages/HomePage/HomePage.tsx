@@ -27,7 +27,7 @@ const HomePage = ({
     handleChangeEditedTask(null)
   };
 
-  const handleEditTask = (taskId, data) => {
+  const handleEditTask = (taskId, data) => { // czy prefix 'handle' powinnien byc dodany do tej funkcji?
     const newTasks = tasks.map((t) =>
       t.id === taskId ? { ...t, ...data } : { ...t }
     );

@@ -13,7 +13,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Typography } from '@mui/material';
 
-const EditTask = ({
+const EditTaskItem = ({
   task,
   handleAddTask,
   handleEditTask,
@@ -272,4 +272,4 @@ const EditTask = ({
   );
 };
 
-export default EditTask;
+export default EditTaskItem;
