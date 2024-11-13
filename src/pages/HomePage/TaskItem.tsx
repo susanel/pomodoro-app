@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-const Task = ({
+const TaskItem = ({
   isActive,
   task,
   editedTaskId,
@@ -132,4 +132,4 @@ const Task = ({
   );
 };
 
-export default Task;
+export default TaskItem;

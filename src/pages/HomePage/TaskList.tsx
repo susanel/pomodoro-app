@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import Task from './Task';
+import TaskItem from './TaskItem';
 import EditTask from './EditTask';
 
 const TaskList = ({
@@ -65,7 +65,7 @@ const TaskList = ({
             handleChangeEditedTask={handleChangeEditedTask}
           />
         ) : (
-          <Task
+          <TaskItem
             isActive={task.id === activeTaskId}
             editedTaskId={editedTaskId}
             key={task.id}
