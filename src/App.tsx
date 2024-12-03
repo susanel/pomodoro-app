@@ -8,7 +8,12 @@ import { modes, modesOrder } from './data/data';
 import { getPaletteColor } from './utils/color';
 import { POMODORO_MODE } from './utils/constants';
 
-export type TaskIteration = { // TODO: add exact numbers for count
+// export type TaskIteration = {
+//   count: number,
+//   isCompleted: boolean
+// }
+
+export interface TaskIteration { // TODO: add exact numbers for count
   count: number,
   isCompleted: boolean
 }

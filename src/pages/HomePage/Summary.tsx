@@ -22,7 +22,11 @@ const getFinishAt = (tasks: Task[]) => {
   return dayjs().add(getFinishIn(tasks));
 };
 
-type SummaryProps = {
+// type SummaryProps = {
+//   tasks: Task[];
+// };
+
+interface SummaryProps {
   tasks: Task[];
 };
 

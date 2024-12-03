@@ -12,7 +12,19 @@ import EditTaskItem from './EditTaskItem';
 import { Task } from '../../data/data';
 import { TaskIteration } from '../../App';
 
-type TaskListProps = {
+// type TaskListProps = {
+//   activeTaskId: Task['id'] | null;
+//   editedTaskId: Task['id'] | null;
+//   tasks: Task[];
+//   tasksIteration: TaskIteration;
+//   handleAddTask: (task: Omit<Task, 'id'>) => void;
+//   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
+//   handleDeleteTask: (taskId: Task['id']) => void;
+//   handleChangeActiveTask: (taskId: Task['id']) => void;
+//   handleChangeEditedTask: (taskId: Task['id'] | null) => void;
+// };
+
+interface TaskListProps {
   activeTaskId: Task['id'] | null;
   editedTaskId: Task['id'] | null;
   tasks: Task[];

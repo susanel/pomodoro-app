@@ -7,14 +7,23 @@ import Box from '@mui/material/Box';
 
 import { Task } from '../../data/data';
 
-type TaskItemProps = {
+// type TaskItemProps = {
+//   task: Task;
+//   isActive: boolean;
+//   editedTaskId: Task['id'];
+//   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void
+//   handleChangeActiveTask: (taskId: Task['id']) => void
+//   handleChangeEditedTask: (taskId: Task['id'] | null) => void;
+// };
+
+interface TaskItemProps {
   task: Task;
   isActive: boolean;
   editedTaskId: Task['id'];
-  handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void
-  handleChangeActiveTask: (taskId: Task['id']) => void
+  handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
+  handleChangeActiveTask: (taskId: Task['id']) => void;
   handleChangeEditedTask: (taskId: Task['id'] | null) => void;
-};
+}
 
 const TaskItem: React.FC<TaskItemProps> = ({
   isActive,

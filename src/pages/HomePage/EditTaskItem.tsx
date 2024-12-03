@@ -14,7 +14,16 @@ import { Typography } from '@mui/material';
 
 import { Task } from '../../data/data';
 
-type EditTaskItemProps = {
+// type EditTaskItemProps = {
+//   task?: Task;
+//   handleAddTask: (task: Omit<Task, 'id'>) => void;
+//   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
+//   handleDeleteTask: (taskId: Task['id']) => void;
+//   handleShowNewTask: () => void;
+//   handleChangeEditedTask: (taskId: Task['id'] | null) => void;
+// };
+
+interface EditTaskItemProps {
   task?: Task;
   handleAddTask: (task: Omit<Task, 'id'>) => void;
   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;

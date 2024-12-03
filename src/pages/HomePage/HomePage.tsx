@@ -10,7 +10,14 @@ import { defaultTasks, Task } from '../../data/data';
 import { POMODORO_MODE } from '../../utils/constants';
 import { TaskIteration } from '../../App';
 
-type HomePageProps = {
+// type HomePageProps = {
+//   pomodoroMode: POMODORO_MODE;
+//   tasksIteration: TaskIteration;
+//   handleModeChange: (mode?: POMODORO_MODE) => void;
+//   handleTasksIterationChange: (data: Partial<TaskIteration>) => void;
+// };
+
+interface HomePageProps {
   pomodoroMode: POMODORO_MODE;
   tasksIteration: TaskIteration;
   handleModeChange: (mode?: POMODORO_MODE) => void;
