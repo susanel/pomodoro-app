@@ -8,20 +8,15 @@ import { modes, modesOrder } from './data/data';
 import { getPaletteColor } from './utils/color';
 import { POMODORO_MODE } from './utils/constants';
 
-// export type TaskIteration = {
-//   count: number,
-//   isCompleted: boolean
-// }
-
-export interface TaskIteration { // TODO: add exact numbers for count
-  count: number,
-  isCompleted: boolean
+export interface TaskIteration {
+  count: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8; // should be connected with ModesOrder type
+  isCompleted: boolean;
 }
 
 function App() {
   const [pomodoroMode, setPomodoroMode] = useState(POMODORO_MODE.POMODORO);
   const [modeCount, setModeCount] = useState(1);
-  const [tasksIteration, setTasksIteration] = useState({
+  const [tasksIteration, setTasksIteration] = useState<TaskIteration>({
     count: 1,
     isCompleted: false,
   });
@@ -49,7 +44,7 @@ function App() {
       setTasksIteration({
         count: tasksIteration.count + 1,
         isCompleted: false,
-      });
+      } as TaskIteration);
     }
   }, [pomodoroMode]);
 
