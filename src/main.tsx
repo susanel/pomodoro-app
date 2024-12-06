@@ -5,6 +5,39 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import App from './App';
 import './index.css';
 
+// declare additional props that Icon Button doesn't have
+declare module '@mui/material/IconButton' {
+  interface IconButtonOwnProps {
+    variant?: 'contained' | 'outlined';
+  }
+} // czy to dziala poniewaz interface jest rozszerzony a inne propsy sa zadeklarowane w innym miejscu (bibliotece MUI)?
+
+declare module '@mui/material' {
+  interface PaletteOptions {
+    pomodoro?: {
+      red: string;
+      green: string;
+      blue: string;
+    };
+  }
+  interface Palette {
+    pomodoro?: {
+      red: string;
+      green: string;
+      blue: string;
+    };
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    tertiary: true;
+  }
+  interface ButtonPropsVariantOverrides {
+    dashed: true;
+  }
+}
+
 let theme = createTheme({
   palette: {
     pomodoro: {
@@ -57,7 +90,7 @@ theme = createTheme(theme, {
                 backgroundColor: 'white',
                 fontWeight: 700,
                 padding: '2px 12px',
-                color: theme.palette.pomodoro.red,
+                color: theme.palette.pomodoro!.red, // Zadeklarowalam pomodro jako prop opcjonalny, moze zmienic aby nie bylo niepotrzebnego bledu i koniecznosci uzywania: !
                 boxShadow: 'rgb(235,235,235) 0px 6px 0px',
                 '&:hover': {
                   boxShadow: 'rgb(235,235,235) 0px 6px 0px',
@@ -149,7 +182,7 @@ theme = createTheme(theme, {
   },
 });
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <App />
