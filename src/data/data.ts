@@ -19,12 +19,12 @@ export type Task = {
 };
 
 export type Modes = {
-  [key: string]: { // should be an enum, or one of the values of the pomodoro type
+  [key in POMODORO_MODE]: {
     duration: Duration;
     color: string;
-    faviconPath: string
-  }
-}
+    faviconPath: string;
+  };
+};
 
 export const defaultTasks: Task[] = [
   {
