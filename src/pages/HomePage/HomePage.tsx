@@ -73,10 +73,10 @@ const HomePage: React.FC<HomePageProps> = ({
       );
       if (!shouldChangeTask) return;
     } else if (pomodoroMode !== POMODORO_MODE.POMODORO) {
-      setActiveTaskId(tasks.find((t) => t.id === taskId).id);
+      setActiveTaskId(tasks.find((t) => t.id === taskId)!.id);
     }
     setIsCounting(false);
-    setActiveTaskId(tasks.find((t) => t.id === id).id);
+    setActiveTaskId(tasks.find((t) => t.id === taskId)!.id);
   };
 
   const handleChangeEditedTask = (taskId: EditedTaskIdOptions) => {
