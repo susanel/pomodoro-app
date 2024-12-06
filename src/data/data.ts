@@ -9,14 +9,14 @@ import svg_blue from '../assets/favicon_blue.svg';
 
 dayjs.extend(duration);
 
-export type Task = {
+export interface Task {
   id: string;
   title: string;
   note: string;
   estimatedCount: number;
   actualCount: number;
   isDone: boolean;
-};
+}
 
 export type Modes = {
   [key in POMODORO_MODE]: {
