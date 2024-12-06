@@ -71,7 +71,12 @@ export const modes: Modes = {
   },
 };
 
-export const modesOrder = [
+interface ModesOrder {
+  id: number;
+  type: POMODORO_MODE;
+}
+
+export const modesOrder: ModesOrder[] = [
   { id: 1, type: POMODORO_MODE.POMODORO },
   { id: 2, type: POMODORO_MODE.SHORT_BREAK },
   { id: 3, type: POMODORO_MODE.POMODORO },
