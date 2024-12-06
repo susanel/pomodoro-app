@@ -3,9 +3,9 @@ import duration, { Duration } from 'dayjs/plugin/duration';
 import { v4 as uuidv4 } from 'uuid';
 import { POMODORO_MODE } from '../utils/constants';
 
-import svg_red from '../assets/favicon_red.svg';
-import svg_green from '../assets/favicon_green.svg';
-import svg_blue from '../assets/favicon_blue.svg';
+import svg_red from '/favicon_red.svg';
+import svg_green from '/favicon_green.svg';
+import svg_blue from '/favicon_blue.svg';
 
 dayjs.extend(duration);
 
