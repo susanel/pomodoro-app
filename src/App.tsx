@@ -56,8 +56,8 @@ function App() {
   const handleFaviconChange = () => {
     const faviconPath = modes[pomodoroMode].faviconPath;
 
-    const link = document.querySelector("link[rel~='icon']");
-    link.href = faviconPath;
+    const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+    link!.href = faviconPath;
   };
 
   return (

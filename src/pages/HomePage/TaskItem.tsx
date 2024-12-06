@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import { Task } from '../../data/data';
+import { EditedTaskIdOptions } from './HomePage';
 
 // type TaskItemProps = {
 //   task: Task;
@@ -19,10 +20,10 @@ import { Task } from '../../data/data';
 interface TaskItemProps {
   task: Task;
   isActive: boolean;
-  editedTaskId: Task['id'];
+  editedTaskId: EditedTaskIdOptions;
   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
   handleChangeActiveTask: (taskId: Task['id']) => void;
-  handleChangeEditedTask: (taskId: Task['id'] | null) => void;
+  handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({
@@ -59,6 +60,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        {/* Dlaczego IconButton nie ma parametru variant, a jednak style sa dodawane poprawnie? */}
         <IconButton
           variant="contained"
           sx={{

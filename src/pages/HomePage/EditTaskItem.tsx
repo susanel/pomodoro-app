@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -13,13 +13,13 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Typography } from '@mui/material';
 
 import { Task } from '../../data/data';
+import { EditedTaskIdOptions } from './HomePage';
 
 // type EditTaskItemProps = {
 //   task?: Task;
 //   handleAddTask: (task: Omit<Task, 'id'>) => void;
 //   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
 //   handleDeleteTask: (taskId: Task['id']) => void;
-//   handleShowNewTask: () => void;
 //   handleChangeEditedTask: (taskId: Task['id'] | null) => void;
 // };
 
@@ -28,16 +28,14 @@ interface EditTaskItemProps {
   handleAddTask: (task: Omit<Task, 'id'>) => void;
   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
   handleDeleteTask: (taskId: Task['id']) => void;
-  handleShowNewTask: () => void;
-  handleChangeEditedTask: (taskId: Task['id'] | null) => void;
-};
+  handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
+}
 
 const EditTaskItem: React.FC<EditTaskItemProps> = ({
   task,
   handleAddTask,
   handleEditTask,
   handleDeleteTask,
-  handleShowNewTask,
   handleChangeEditedTask,
 }) => {
   const { id, title, note, estimatedCount, actualCount } = task || {};
@@ -71,11 +69,11 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
   const handleEsimatedCountChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setTaskEstimatedCount(e.target.value * 1);
+    setTaskEstimatedCount(Number(e.target.value));
   };
 
   const handleActualCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTaskActualCount(e.target.value * 1);
+    setTaskActualCount(Number(e.target.value));
   };
 
   const handleTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +85,7 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
   };
 
   const handleSaveTask = () => {
-    if (!task) {
+    if (!id) {
       const newTask = {
         title: taskTitle,
         estimatedCount: taskEstimatedCount,
@@ -96,7 +94,7 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
         isDone: false,
       };
       handleAddTask(newTask);
-      handleShowNewTask();
+      handleChangeEditedTask(undefined);
     } else {
       handleEditTask(id, {
         title: taskTitle,
@@ -104,13 +102,12 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
         actualCount: taskActualCount,
         note: taskNote,
       });
-      handleChangeEditedTask(null);
+      handleChangeEditedTask(undefined);
     }
   };
 
   const handleCancelTask = () => {
-    if (!id) return handleShowNewTask();
-    return handleChangeEditedTask(null);
+    return handleChangeEditedTask(undefined);
   };
 
   return (
@@ -126,10 +123,9 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
                 fontStyle: 'italic',
                 color: 'rgb(85, 85, 85)',
               }}
-              variant="standard"
               placeholder="What are you working on?"
               value={taskTitle}
-              onChange={(e) => {
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 handleTaskTitle(e);
               }}
             ></InputBase>
@@ -160,7 +156,7 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
                     color: 'rgb(187, 187, 187)',
                   }}
                   inputProps={{ min: 0, max: 99 }}
-                  onChange={(e) => {
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
                     handleActualCountChange(e);
                   }}
                 ></InputBase>
@@ -175,9 +171,7 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
             )}
             <InputBase
               id="est-pomodoros"
-              variant="filled"
               type="number"
-              label="Est Pomodoros"
               value={taskEstimatedCount}
               sx={{
                 width: '75px',
@@ -188,7 +182,7 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
                 color: 'rgb(85, 85, 85)',
                 fontWeight: 700,
               }}
-              onChange={(e) => {
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 handleEsimatedCountChange(e);
               }}
             ></InputBase>
@@ -235,7 +229,7 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
                   borderRadius: '6px',
                   backgroundColor: 'rgb(239, 239, 239)',
                 }}
-                onChange={(e) => {
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   handleTaskNote(e);
                 }}
               />
@@ -252,7 +246,7 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
           justifyContent: 'space-between',
         }}
       >
-        {!!task && (
+        {!!id && (
           <Button
             variant="text"
             sx={{

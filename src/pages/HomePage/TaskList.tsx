@@ -11,6 +11,7 @@ import TaskItem from './TaskItem';
 import EditTaskItem from './EditTaskItem';
 import { Task } from '../../data/data';
 import { TaskIteration } from '../../App';
+import { EditedTaskIdOptions } from './HomePage';
 
 // type TaskListProps = {
 //   activeTaskId: Task['id'] | null;
@@ -26,15 +27,15 @@ import { TaskIteration } from '../../App';
 
 interface TaskListProps {
   activeTaskId: Task['id'] | null;
-  editedTaskId: Task['id'] | null;
+  editedTaskId: EditedTaskIdOptions;
   tasks: Task[];
   tasksIteration: TaskIteration;
   handleAddTask: (task: Omit<Task, 'id'>) => void;
   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
   handleDeleteTask: (taskId: Task['id']) => void;
   handleChangeActiveTask: (taskId: Task['id']) => void;
-  handleChangeEditedTask: (taskId: Task['id'] | null) => void;
-};
+  handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
+}
 
 const TaskList: React.FC<TaskListProps> = ({
   activeTaskId,
@@ -47,12 +48,6 @@ const TaskList: React.FC<TaskListProps> = ({
   handleChangeActiveTask,
   handleChangeEditedTask,
 }) => {
-  const [showNewTask, setShowNewTask] = useState(false);
-
-  const handleShowNewTask = () => {
-    setShowNewTask(!showNewTask);
-  };
-
   return (
     <Box sx={{ width: '480px', m: '8px auto 0' }}>
       <Box>
@@ -87,7 +82,6 @@ const TaskList: React.FC<TaskListProps> = ({
             handleAddTask={handleAddTask}
             handleEditTask={handleEditTask}
             handleDeleteTask={handleDeleteTask}
-            handleShowNewTask={handleShowNewTask}
             handleChangeEditedTask={handleChangeEditedTask}
           />
         ) : (
@@ -103,25 +97,24 @@ const TaskList: React.FC<TaskListProps> = ({
         );
       })}
       <Box sx={{ mt: 1.5 }}>
-        {!showNewTask && (
+        {editedTaskId !== 'new-task' && (
           <Button
             variant="dashed"
             sx={{ p: 0, lineHeight: '60px', width: '100%' }}
             startIcon={<AddCircleIcon fontSize="large" />}
             onClick={() => {
-              handleShowNewTask();
+              handleChangeEditedTask('new-task');
             }}
           >
             Add Task
           </Button>
         )}
-        {showNewTask && (
+        {editedTaskId === 'new-task' && (
           <EditTaskItem
             key={'new-task'}
             handleAddTask={handleAddTask}
             handleEditTask={handleEditTask}
             handleDeleteTask={handleDeleteTask}
-            handleShowNewTask={handleShowNewTask}
             handleChangeEditedTask={handleChangeEditedTask}
           />
         )}

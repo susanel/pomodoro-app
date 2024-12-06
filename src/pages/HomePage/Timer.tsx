@@ -17,10 +17,15 @@ import { TaskIteration } from '../../App';
 
 dayjs.extend(duration);
 
+interface StyledButtonsProps {
+  variant: 'contained' | 'text';
+  color: 'primary' | 'secondary';
+}
+
 const getButtonStyles = (
   pomodoroMode: POMODORO_MODE,
   buttonMode: POMODORO_MODE
-) => {
+): StyledButtonsProps => {
   return pomodoroMode === buttonMode
     ? { variant: 'contained', color: 'secondary' }
     : { variant: 'text', color: 'primary' };
@@ -44,7 +49,7 @@ interface TimerProps {
   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
   handleModeChange: (mode?: POMODORO_MODE) => void;
   handleTasksIterationChange: (data: Partial<TaskIteration>) => void;
-};
+}
 
 const Timer: React.FC<TimerProps> = ({
   pomodoroMode,
