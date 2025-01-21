@@ -10,39 +10,23 @@ import InputLabel from '@mui/material/InputLabel';
 import InputBase from '@mui/material/InputBase';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import Typography from '@mui/material/Typography';
 
 import { Task } from '../../data/data';
 import { EditedTaskIdOptions } from './HomePage';
 
-// type EditTaskItemProps = {
-//   task?: Task;
-//   handleAddTask: (task: Omit<Task, 'id'>) => void;
-//   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-//   handleDeleteTask: (taskId: Task['id']) => void;
-//   handleChangeEditedTask: (taskId: Task['id'] | null) => void;
-// };
-
-interface EditTaskItemProps {
-  task: Task;
-  handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-  handleDeleteTask: (taskId: Task['id']) => void;
+interface CreateTaskItemProps {
+  handleAddTask: (task: Omit<Task, 'id'>) => void;
   handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
 }
 
-const EditTaskItem: React.FC<EditTaskItemProps> = ({
-  task,
-  handleEditTask,
-  handleDeleteTask,
+const CreateTaskItem: React.FC<CreateTaskItemProps> = ({
+  handleAddTask,
   handleChangeEditedTask,
 }) => {
-  const { id, title, note, estimatedCount, actualCount } = task;
-
-  const [taskEstimatedCount, setTaskEstimatedCount] = useState(estimatedCount);
-  const [taskActualCount, setTaskActualCount] = useState(actualCount);
-  const [taskTitle, setTaskTitle] = useState(title);
-  const [taskNote, setTaskNote] = useState(note);
-  const [showNote, setShowNote] = useState(!!note);
+  const [taskEstimatedCount, setTaskEstimatedCount] = useState(1);
+  const [taskTitle, setTaskTitle] = useState('');
+  const [taskNote, setTaskNote] = useState('');
+  const [showNote, setShowNote] = useState(false);
 
   const handleIncrementInput = () => {
     if (taskEstimatedCount >= 99) return;
@@ -68,10 +52,6 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
     setTaskEstimatedCount(Number(e.target.value));
   };
 
-  const handleActualCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTaskActualCount(Number(e.target.value));
-  };
-
   const handleTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     return setTaskTitle(e.target.value);
   };
@@ -81,12 +61,14 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
   };
 
   const handleSaveTask = () => {
-    handleEditTask(id, {
+    const newTask = {
       title: taskTitle,
       estimatedCount: taskEstimatedCount,
-      actualCount: taskActualCount,
+      actualCount: 0,
       note: taskNote,
-    });
+      isDone: false,
+    };
+    handleAddTask(newTask);
     handleChangeEditedTask(undefined);
   };
 
@@ -123,34 +105,8 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
                 fontSize: '1rem',
               }}
             >
-              {`Act \/ Est Pomodoros`}
+              Est Pomodoros
             </InputLabel>
-
-            <InputBase
-              id="act-pomodoros"
-              type="number"
-              value={taskActualCount}
-              sx={{
-                width: '75px',
-                p: 1.25,
-                backgroundColor: 'rgb(239, 239, 239)',
-                borderRadius: '6px',
-                fontWeight: 700,
-                color: 'rgb(187, 187, 187)',
-              }}
-              inputProps={{ min: 0, max: 99 }}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                handleActualCountChange(e);
-              }}
-            ></InputBase>
-            <Typography
-              variant="body1"
-              component="span"
-              sx={{ mx: 0.75, color: 'rgb(170, 170, 170)' }}
-            >
-              /
-            </Typography>
-
             <InputBase
               id="est-pomodoros"
               type="number"
@@ -182,7 +138,6 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
               <ArrowDropDownIcon />
             </IconButton>
           </Box>
-
           <Box sx={{ py: 1 }}>
             {!showNote && (
               <Button
@@ -228,19 +183,6 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
           justifyContent: 'space-between',
         }}
       >
-        <Button
-          variant="text"
-          sx={{
-            py: 1,
-            justifyContent: 'flex-start',
-            color: 'rgb(136, 136, 136)',
-            fontWeight: 700,
-          }}
-          onClick={() => handleDeleteTask(id)}
-        >
-          Delete
-        </Button>
-
         <Box sx={{ ml: 'auto' }}>
           <Button
             variant="text"
@@ -268,4 +210,4 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
   );
 };
 
-export default EditTaskItem;
+export default CreateTaskItem;

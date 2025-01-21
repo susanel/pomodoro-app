@@ -8,6 +8,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import TaskItem from './TaskItem';
+import CreateTaskItem from './CreateTaskItem';
 import EditTaskItem from './EditTaskItem';
 import { Task } from '../../data/data';
 import { TaskIteration } from '../../App';
@@ -79,7 +80,6 @@ const TaskList: React.FC<TaskListProps> = ({
           <EditTaskItem
             key={task.id}
             task={task}
-            handleAddTask={handleAddTask}
             handleEditTask={handleEditTask}
             handleDeleteTask={handleDeleteTask}
             handleChangeEditedTask={handleChangeEditedTask}
@@ -110,11 +110,8 @@ const TaskList: React.FC<TaskListProps> = ({
           </Button>
         )}
         {editedTaskId === 'new-task' && (
-          <EditTaskItem
-            key={'new-task'}
+          <CreateTaskItem
             handleAddTask={handleAddTask}
-            handleEditTask={handleEditTask}
-            handleDeleteTask={handleDeleteTask}
             handleChangeEditedTask={handleChangeEditedTask}
           />
         )}
