@@ -4,8 +4,10 @@ import dayjs from 'dayjs';
 
 import { Task } from '../../data/data';
 
-const getSum = (tasks: Task[], sumType: 'actualCount' | 'estimatedCount') => { // take 2 keys from tasks object <?>
-  return tasks.reduce((acc, curr) => acc + curr[sumType], 0);
+type Count = 'actualCount' | 'estimatedCount';
+
+const getCount = (tasks: Task[], count: Count) => {
+  return tasks.reduce((acc, curr) => acc + curr[count], 0);
 };
 
 const getFinishIn = (tasks: Task[]) => {
@@ -22,13 +24,9 @@ const getFinishAt = (tasks: Task[]) => {
   return dayjs().add(getFinishIn(tasks));
 };
 
-// type SummaryProps = {
-//   tasks: Task[];
-// };
-
 interface SummaryProps {
   tasks: Task[];
-};
+}
 
 const Summary: React.FC<SummaryProps> = ({ tasks }) => {
   return (
@@ -58,7 +56,7 @@ const Summary: React.FC<SummaryProps> = ({ tasks }) => {
             letterSpacing: '3px',
           }}
         >
-          {getSum(tasks, 'estimatedCount')}/{getSum(tasks, 'actualCount')}
+          {getCount(tasks, 'estimatedCount')}/{getCount(tasks, 'actualCount')}
         </Typography>
       </Box>
       <Box sx={{ mx: 0.5, color: 'rgba(255, 255, 255, 0.7)' }}>
