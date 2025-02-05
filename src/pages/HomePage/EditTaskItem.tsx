@@ -10,14 +10,6 @@ import { Task } from '../../data/data';
 import { EditedTaskIdOptions } from './HomePage';
 import Form, { EditFormData, FormConfig } from '../../components/Form';
 
-// type EditTaskItemProps = {
-//   task?: Task;
-//   handleAddTask: (task: Omit<Task, 'id'>) => void;
-//   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-//   handleDeleteTask: (taskId: Task['id']) => void;
-//   handleChangeEditedTask: (taskId: Task['id'] | null) => void;
-// };
-
 interface EditTaskItemProps {
   task: Task;
   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
