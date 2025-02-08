@@ -1,11 +1,7 @@
-import { useState } from 'react';
-
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import TaskItem from './TaskItem';
 import CreateTaskItem from './CreateTaskItem';
@@ -85,24 +81,7 @@ const TaskList: React.FC<TaskListProps> = ({
         );
       })}
       <Box sx={{ mt: 1.5 }}>
-        {editedTaskId !== 'new-task' && (
-          <Button
-            variant="dashed"
-            sx={{ p: 0, lineHeight: '60px', width: '100%' }}
-            startIcon={<AddCircleIcon fontSize="large" />}
-            onClick={() => {
-              handleChangeEditedTask('new-task');
-            }}
-          >
-            Add Task
-          </Button>
-        )}
-        {editedTaskId === 'new-task' && (
-          <CreateTaskItem
-            handleAddTask={handleAddTask}
-            handleChangeEditedTask={handleChangeEditedTask}
-          />
-        )}
+        <CreateTaskItem handleAddTask={handleAddTask} />
       </Box>
     </Box>
   );

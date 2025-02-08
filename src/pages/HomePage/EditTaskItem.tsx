@@ -39,11 +39,11 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
       actualCount: formData.actualCount,
       note: formData.note,
     });
-    handleChangeEditedTask(undefined);
+    handleChangeEditedTask(null);
   };
 
   const handleCancelTask = () => {
-    return handleChangeEditedTask(undefined);
+    handleChangeEditedTask(null);
   };
 
   const formConfig: FormConfig = {

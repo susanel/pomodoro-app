@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 import Box from '@mui/material/Box';
@@ -17,7 +17,7 @@ interface HomePageProps {
   handleTasksIterationChange: (data: Partial<TaskIteration>) => void;
 }
 
-export type EditedTaskIdOptions = Task['id'] | 'new-task' | undefined;
+export type EditedTaskIdOptions = Task['id'] | null;
 
 const HomePage: React.FC<HomePageProps> = ({
   pomodoroMode,
@@ -26,10 +26,9 @@ const HomePage: React.FC<HomePageProps> = ({
   handleTasksIterationChange,
 }) => {
   const [tasks, setTasks] = useState(defaultTasks);
-  const [activeTaskId, setActiveTaskId] = useState(tasks[0]?.id || null);
-  const [editedTaskId, setEditedTaskId] =
-    useState<EditedTaskIdOptions>(undefined); // 3 stany: 1. task istnieje; 2 - task nie istnieje <null? string?>,a le jest edytowany; 3 - nic nie jest edytowane <undefined>
-  // czy funkcje z useState powinnam przekazywac dalej w propsach do innych komponentow czy funkcje utworzona na jej bazie?
+  const [activeTaskId, setActiveTaskId] =
+    useState < Task['id'] | null > (tasks[0]?.id ?? null);
+  const [editedTaskId, setEditedTaskId] = useState<EditedTaskIdOptions>(null);
   const [isCounting, setIsCounting] = useState(false);
 
   const handleAddTask = (task: Omit<Task, 'id'>) => {
@@ -37,7 +36,7 @@ const HomePage: React.FC<HomePageProps> = ({
     const newTask = { ...task, id: uuidv4() };
     if (!tasks.length) setActiveTaskId(newTask.id);
     setTasks([...tasks, { ...newTask }]);
-    handleChangeEditedTask(undefined);
+    handleChangeEditedTask(null);
   };
 
   const handleEditTask = (taskId: Task['id'], data: Partial<Task>) => {
@@ -55,7 +54,7 @@ const HomePage: React.FC<HomePageProps> = ({
   const handleDeleteTask = (taskId: Task['id']) => {
     if (activeTaskId === taskId) setActiveTaskId(null);
     setTasks([...tasks.filter((task) => task.id !== taskId)]);
-    handleChangeEditedTask(undefined);
+    handleChangeEditedTask(null);
   };
 
   const handleChangeActiveTask = (taskId: Task['id']) => {
