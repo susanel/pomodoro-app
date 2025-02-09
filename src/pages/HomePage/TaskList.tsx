@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 import TaskItem from './TaskItem';
-import CreateTaskItem from './CreateTaskItem';
+import CreateTaskItem, { NewTask } from './CreateTaskItem';
 import EditTaskItem from './EditTaskItem';
 import { Task } from '../../data/data';
 import { TaskIteration } from '../../App';
@@ -15,7 +15,7 @@ interface TaskListProps {
   editedTaskId: EditedTaskIdOptions;
   tasks: Task[];
   tasksIteration: TaskIteration;
-  handleAddTask: (task: Omit<Task, 'id'>) => void;
+  handleAddTask: (task: NewTask) => void;
   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
   handleDeleteTask: (taskId: Task['id']) => void;
   handleChangeActiveTask: (taskId: Task['id']) => void;

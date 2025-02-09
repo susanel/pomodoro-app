@@ -9,6 +9,7 @@ import Summary from './Summary';
 import { defaultTasks, Task } from '../../data/data';
 import { POMODORO_MODE } from '../../utils/constants';
 import { TaskIteration } from '../../App';
+import { NewTask } from './CreateTaskItem';
 
 interface HomePageProps {
   pomodoroMode: POMODORO_MODE;
@@ -26,13 +27,13 @@ const HomePage: React.FC<HomePageProps> = ({
   handleTasksIterationChange,
 }) => {
   const [tasks, setTasks] = useState(defaultTasks);
-  const [activeTaskId, setActiveTaskId] =
-    useState < Task['id'] | null > (tasks[0]?.id ?? null);
+  const [activeTaskId, setActiveTaskId] = useState<EditedTaskIdOptions>(
+    tasks[0]?.id ?? null
+  );
   const [editedTaskId, setEditedTaskId] = useState<EditedTaskIdOptions>(null);
   const [isCounting, setIsCounting] = useState(false);
 
-  const handleAddTask = (task: Omit<Task, 'id'>) => {
-    // should have a type: NewTask? Or have an optional field on Task type?
+  const handleAddTask = (task: NewTask) => {
     const newTask = { ...task, id: uuidv4() };
     if (!tasks.length) setActiveTaskId(newTask.id);
     setTasks([...tasks, { ...newTask }]);

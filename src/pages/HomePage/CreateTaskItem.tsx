@@ -10,8 +10,10 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Task } from '../../data/data';
 import Form, { CreateFormData, FormConfig } from '../../components/Form';
 
+export type NewTask = Omit<Task, 'id'>;
+
 interface CreateTaskItemProps {
-  handleAddTask: (task: Omit<Task, 'id'>) => void;
+  handleAddTask: (task: NewTask) => void;
 }
 
 const CreateTaskItem: React.FC<CreateTaskItemProps> = ({ handleAddTask }) => {
