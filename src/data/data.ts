@@ -15,7 +15,7 @@ export interface Task {
   note: string;
   estimatedCount: number;
   actualCount: number;
-  isDone: boolean;
+  isCompleted: boolean;
 }
 
 export type Modes = {
@@ -33,7 +33,7 @@ export const defaultTasks: Task[] = [
     note: '',
     estimatedCount: 1,
     actualCount: 1,
-    isDone: false,
+    isCompleted: false,
   },
   {
     id: uuidv4(),
@@ -41,7 +41,7 @@ export const defaultTasks: Task[] = [
     note: 'Test note',
     estimatedCount: 4,
     actualCount: 1,
-    isDone: false,
+    isCompleted: false,
   },
   {
     id: uuidv4(),
@@ -49,7 +49,7 @@ export const defaultTasks: Task[] = [
     note: '',
     estimatedCount: 0.1,
     actualCount: 0,
-    isDone: false,
+    isCompleted: false,
   },
 ];
 

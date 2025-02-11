@@ -45,9 +45,9 @@ const HomePage: React.FC<HomePageProps> = ({
     const newTasks = tasks.map((t) =>
       t.id === taskId ? { ...t, ...data } : { ...t }
     );
-    if (Object.hasOwn(data, 'isDone')) {
-      //  newTasks.sort((a, b) => a.isDone - b.isDone); // Error: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
-      newTasks.sort((a, b) => Number(a.isDone) - Number(b.isDone));
+    if (Object.hasOwn(data, 'isCompleted')) {
+      //  newTasks.sort((a, b) => a.isCompleted - b.isCompleted); // Error: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
+      newTasks.sort((a, b) => Number(a.isCompleted) - Number(b.isCompleted));
     }
     setTasks([...newTasks]);
   };

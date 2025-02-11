@@ -65,7 +65,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
           onClick={(e) => {
             e.stopPropagation();
             handleEditTask(id, {
-              isDone: !task.isDone,
+              isCompleted: !task.isCompleted,
             });
           }}
         >
@@ -73,7 +73,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
             fontSize="inherit"
             sx={{
               fontSize: '30px',
-              color: task.isDone ? 'rgb(186, 73, 73)' : 'rgb(223, 223, 223)',
+              color: task.isCompleted ? 'rgb(186, 73, 73)' : 'rgb(223, 223, 223)',
             }}
           />
         </IconButton>

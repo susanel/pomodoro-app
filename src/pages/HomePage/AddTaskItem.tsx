@@ -30,7 +30,7 @@ const AddTaskItem: React.FC<AddTaskItemProps> = ({ handleAddTask }) => {
       estimatedCount: formData.estimatedCount,
       actualCount: 0,
       note: formData.note,
-      isDone: false,
+      isCompleted: false,
     };
     handleAddTask(newTask);
     setShowAddTask(false);
