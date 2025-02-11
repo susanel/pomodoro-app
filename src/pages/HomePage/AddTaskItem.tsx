@@ -12,12 +12,12 @@ import Form, { CreateFormData, FormConfig } from '../../components/Form';
 
 export type NewTask = Omit<Task, 'id'>;
 
-interface CreateTaskItemProps {
+interface AddTaskItemProps {
   handleAddTask: (task: NewTask) => void;
 }
 
-const CreateTaskItem: React.FC<CreateTaskItemProps> = ({ handleAddTask }) => {
-  const [showCreateTask, setShowCreateTask] = useState(false);
+const AddTaskItem: React.FC<AddTaskItemProps> = ({ handleAddTask }) => {
+  const [showAddTask, setShowAddTask] = useState(false);
   const [formData, setFormData] = useState<CreateFormData>({
     title: '',
     note: '',
@@ -33,7 +33,7 @@ const CreateTaskItem: React.FC<CreateTaskItemProps> = ({ handleAddTask }) => {
       isDone: false,
     };
     handleAddTask(newTask);
-    setShowCreateTask(false);
+    setShowAddTask(false);
   };
 
   const handleFormData = (newState: Partial<CreateFormData>) => {
@@ -50,7 +50,7 @@ const CreateTaskItem: React.FC<CreateTaskItemProps> = ({ handleAddTask }) => {
 
   return (
     <>
-      {showCreateTask ? (
+      {showAddTask ? (
         <Card sx={{ mt: 1.5 }}>
           <CardContent>
             <Form config={formConfig} handleFormData={handleFormData} />
@@ -74,7 +74,7 @@ const CreateTaskItem: React.FC<CreateTaskItemProps> = ({ handleAddTask }) => {
                   color: 'rgb(136, 136, 136)',
                   fontWeight: 700,
                 }}
-                onClick={() => setShowCreateTask(false)}
+                onClick={() => setShowAddTask(false)}
               >
                 Cancel
               </Button>
@@ -94,7 +94,7 @@ const CreateTaskItem: React.FC<CreateTaskItemProps> = ({ handleAddTask }) => {
           sx={{ p: 0, lineHeight: '60px', width: '100%' }}
           startIcon={<AddCircleIcon fontSize="large" />}
           onClick={() => {
-            setShowCreateTask(true);
+            setShowAddTask(true);
           }}
         >
           Add Task
@@ -104,4 +104,4 @@ const CreateTaskItem: React.FC<CreateTaskItemProps> = ({ handleAddTask }) => {
   );
 };
 
-export default CreateTaskItem;
+export default AddTaskItem;

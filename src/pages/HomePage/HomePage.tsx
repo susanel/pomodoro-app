@@ -9,7 +9,7 @@ import Summary from './Summary';
 import { defaultTasks, Task } from '../../data/data';
 import { POMODORO_MODE } from '../../utils/constants';
 import { TaskIteration } from '../../App';
-import { NewTask } from './CreateTaskItem';
+import { NewTask } from './AddTaskItem';
 
 interface HomePageProps {
   pomodoroMode: POMODORO_MODE;

@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 import TaskItem from './TaskItem';
-import CreateTaskItem, { NewTask } from './CreateTaskItem';
+import AddTaskItem, { NewTask } from './AddTaskItem';
 import EditTaskItem from './EditTaskItem';
 import { Task } from '../../data/data';
 import { TaskIteration } from '../../App';
@@ -81,7 +81,7 @@ const TaskList: React.FC<TaskListProps> = ({
         );
       })}
       <Box sx={{ mt: 1.5 }}>
-        <CreateTaskItem handleAddTask={handleAddTask} />
+        <AddTaskItem handleAddTask={handleAddTask} />
       </Box>
     </Box>
   );
