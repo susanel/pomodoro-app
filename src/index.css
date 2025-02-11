@@ -14,14 +14,14 @@ body {
   min-height: 100vh;
 }
 
-input[type='number'][id='est-pomodoros']::-webkit-inner-spin-button,
-input[type='number'][id='est-pomodoros']::-webkit-outer-spin-button {
+input[type='number'][id='estimated-count']::-webkit-inner-spin-button,
+input[type='number'][id='estimated-count']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Dlaczego tu dodajemy wartosc textfield? */
-input[type='number'][id='est-pomodoros'] {
+input[type='number'][id='estimated-count'] {
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
   appearance: textfield;

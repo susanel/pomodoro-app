@@ -250,5 +250,4 @@ const Timer: React.FC<TimerProps> = ({
     </>
   );
 };
-
 export default Timer;
