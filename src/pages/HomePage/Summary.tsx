@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import dayjs from 'dayjs';
 
 import { Task } from '../../data/data';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 type Count = 'actualCount' | 'estimatedCount';
 
@@ -28,7 +30,8 @@ interface SummaryProps {
   tasks: Task[];
 }
 
-const Summary: React.FC<SummaryProps> = ({ tasks }) => {
+const Summary: React.FC<SummaryProps> = () => {
+  const { tasks } = useSelector((state: RootState) => state.tasks);
   return (
     <Box
       sx={{

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
@@ -7,13 +7,24 @@ import Button from '@mui/material/Button';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import IconButton from '@mui/material/IconButton';
 
-import { modes, Task } from '../../data/data';
+import { modes } from '../../data/data';
 import TimeBar from '../../components/TimeBar';
 import { getPaletteColor } from '../../utils/color';
 import { POMODORO_MODE } from '../../utils/constants';
 import alarmSound from '../../assets/audio/alarm.mp3';
 import clickSound from '../../assets/audio/click.mp3';
-import { TaskIteration } from '../../App';
+import { useDispatch, useSelector } from 'react-redux';
+import { increaseActualCount, incrementTaskIteration } from './TasksSlice';
+import {
+  countDown,
+  setMode,
+  setNextMode,
+  setTimer,
+  startTimer,
+  stopTimer,
+} from './TimerSlice';
+import { RootState } from '../../redux/store';
+import { playAudio } from '../../utils/playAudio';
 
 dayjs.extend(duration);
 
@@ -32,64 +43,63 @@ const getButtonStyles = (
 };
 
 interface TimerProps {
-  pomodoroMode: POMODORO_MODE; // can take enum?
-  activeTask: Task;
-  isCounting: boolean;
-  setIsCounting: (isCounting: boolean) => void;
-  handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-  handleModeChange: (mode?: POMODORO_MODE) => void;
-  handleTasksIterationChange: (data: Partial<TaskIteration>) => void;
+  // pomodoroMode: POMODORO_MODE; // can take enum?
+  // activeTask: Task;
+  // isCounting: boolean;
+  // setIsCounting: (isCounting: boolean) => void;
+  // handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
+  // handleModeChange: (mode?: POMODORO_MODE) => void;
+  // handleTasksIterationChange: (data: Partial<TaskIteration>) => void;
 }
 
-const Timer: React.FC<TimerProps> = ({
-  pomodoroMode,
-  activeTask,
-  isCounting,
-  setIsCounting, // should I pass useState functions down to other components?
-  handleEditTask,
-  handleModeChange,
-  handleTasksIterationChange,
-}) => {
-  const [timer, setTimer] = useState(modes[pomodoroMode].duration);
+const Timer: React.FC<TimerProps> = () => {
+  const { pomodoroMode, isTimerRunning, timer } = useSelector(
+    (state: RootState) => state.timer
+  );
+  const { activeTaskId, tasks } = useSelector(
+    (state: RootState) => state.tasks
+  );
+
+  const activeTask = tasks.find((t) => t.id === activeTaskId);
+  const dispatch = useDispatch();
 
   const handleTimerModeChange = (mode: POMODORO_MODE) => {
-    setIsCounting(false);
-    setTimer(modes[mode].duration);
-    handleModeChange(mode);
+    if (isTimerRunning) dispatch(stopTimer());
+    dispatch(setMode(mode));
   };
 
   useEffect(() => {
-    if (pomodoroMode !== POMODORO_MODE.POMODORO) return;
-    if (!activeTask) return setTimer(modes[pomodoroMode].duration);
+    dispatch(setTimer(computeTaskTime()));
+  }, [activeTaskId, activeTask?.estimatedCount, pomodoroMode]);
 
-    calculateCurrentTaskDuration();
-  }, [activeTask]);
+  const computeTaskTime = () => {
+    if (!activeTaskId || pomodoroMode !== POMODORO_MODE.POMODORO)
+      return modes[pomodoroMode].duration;
+    const multiplier =
+      activeTask!.estimatedCount < 1 ? activeTask!.estimatedCount : 1;
+    return modes[pomodoroMode].duration * multiplier;
+  };
 
   useEffect(() => {
     let intervalId: number;
-    if (isCounting) {
+    if (isTimerRunning) {
       intervalId = setInterval(() => {
-        setTimer((prevTimer) => prevTimer.subtract({ seconds: 1 }));
+        dispatch(countDown());
       }, 1000);
       return () => clearInterval(intervalId);
     }
     return () => clearInterval(intervalId);
-  }, [isCounting]);
+  }, [isTimerRunning]);
 
   useEffect(() => {
-    if (timer.asSeconds() === 0) {
-      handleEditTask(activeTask.id, {
-        actualCount: activeTask.actualCount + 1,
-      });
-      setIsCounting(false);
-      const audio = new Audio(alarmSound);
-      audio.play();
-      handleModeChange();
-
+    if (timer <= 0) {
+      dispatch(increaseActualCount(activeTaskId));
+      dispatch(stopTimer());
+      playAudio(alarmSound);
+      dispatch(setNextMode());
       if (pomodoroMode === POMODORO_MODE.POMODORO)
-        handleTasksIterationChange({ isCompleted: true });
+        dispatch(incrementTaskIteration());
     }
-
     handleDocumentTitle();
   }, [timer]);
 
@@ -105,57 +115,34 @@ const Timer: React.FC<TimerProps> = ({
         break;
     }
 
-    document.title = `${timer.format('mm:ss')} - ${titleText}`;
+    document.title = `${dayjs(timer).format('mm:ss')} - ${titleText}`;
   };
 
-  useEffect(() => {
-    setIsCounting(false);
-    setTimer(modes[pomodoroMode].duration);
-  }, [pomodoroMode]);
-
   const handleSkipCurrentMode = () => {
-    setIsCounting(false);
-    handleModeChange();
-    if (pomodoroMode === POMODORO_MODE.POMODORO && activeTask) {
-      handleEditTask(activeTask.id, {
-        actualCount:
-          activeTask.actualCount +
-          (activeTask.estimatedCount <= 1 ? activeTask.estimatedCount : 1),
-      });
+    dispatch(setNextMode());
+    if (pomodoroMode === POMODORO_MODE.POMODORO && activeTaskId) {
+      dispatch(increaseActualCount(activeTaskId));
     }
 
     if (pomodoroMode === POMODORO_MODE.POMODORO)
-      handleTasksIterationChange({ isCompleted: true });
+      dispatch(incrementTaskIteration());
   };
 
-  const handleTimer = () => {
-    const audio = new Audio(clickSound);
-    audio.play();
-    setIsCounting(!isCounting);
-  };
-
-  const calculateCurrentTaskDuration = () => {
-    const durationInMins = modes[pomodoroMode].duration.asMinutes();
-
-    const updatedDuration = dayjs.duration(
-      durationInMins *
-        (activeTask.estimatedCount > 1 ? 1 : activeTask.estimatedCount),
-      'minutes'
-    );
-
-    return setTimer(updatedDuration);
+  const handleTimerToggle = () => {
+    playAudio(clickSound);
+    dispatch(isTimerRunning ? stopTimer() : startTimer());
   };
 
   const countTaskProgress = () => {
     if (!activeTask) return 0;
-    const modeDuration = modes[pomodoroMode].duration.asSeconds();
+    const modeDuration = modes[pomodoroMode].duration;
     const multiplier =
       pomodoroMode === POMODORO_MODE.POMODORO && activeTask.estimatedCount < 1
         ? activeTask.estimatedCount
         : 1;
     const max = Math.floor(modeDuration * multiplier);
 
-    return ((max - timer.asSeconds()) / max) * 100;
+    return ((max - timer) / max) * 100;
   };
 
   return (
@@ -195,7 +182,7 @@ const Timer: React.FC<TimerProps> = ({
         </Box>
 
         <Box sx={{ m: '0 auto', fontSize: '120px', fontWeight: 700 }}>
-          <span>{timer.format('mm:ss')}</span>
+          <span>{dayjs.duration(timer).format('mm:ss')}</span>
         </Box>
 
         <Box
@@ -218,14 +205,14 @@ const Timer: React.FC<TimerProps> = ({
               gridColumn: '2 / span 1',
               p: 0,
               color: getPaletteColor(pomodoroMode),
-              ...(isCounting && {
+              ...(isTimerRunning && {
                 boxShadow: 'none',
                 '&:hover': { boxShadow: 'none' },
               }),
             }}
-            onClick={() => handleTimer()}
+            onClick={() => handleTimerToggle()}
           >
-            {isCounting ? 'pause' : 'start'}
+            {isTimerRunning ? 'pause' : 'start'}
           </Button>
 
           <IconButton
@@ -234,8 +221,8 @@ const Timer: React.FC<TimerProps> = ({
               gridColumn: '3 / span 1',
               p: 0,
               transition: 'opacity .2s ease-out',
-              opacity: isCounting ? 1 : 0,
-              pointerEvents: isCounting ? 'auto' : 'none',
+              opacity: isTimerRunning ? 1 : 0,
+              pointerEvents: isTimerRunning ? 'auto' : 'none',
               '&:hover': {
                 opacity: '0.8',
                 backgroundColor: 'rgba(0, 0, 0, 0)',

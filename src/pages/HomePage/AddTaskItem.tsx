@@ -9,14 +9,16 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import { Task } from '../../data/data';
 import Form, { CreateFormData, FormConfig } from '../../components/Form';
+import { useDispatch } from 'react-redux';
+import { addTask } from './TasksSlice';
 
 export type NewTask = Omit<Task, 'id'>;
 
 interface AddTaskItemProps {
-  handleAddTask: (task: NewTask) => void;
+  // handleAddTask: (task: NewTask) => void;
 }
 
-const AddTaskItem: React.FC<AddTaskItemProps> = ({ handleAddTask }) => {
+const AddTaskItem: React.FC<AddTaskItemProps> = () => {
   const [showAddTask, setShowAddTask] = useState(false);
   const [formData, setFormData] = useState<CreateFormData>({
     title: '',
@@ -24,15 +26,15 @@ const AddTaskItem: React.FC<AddTaskItemProps> = ({ handleAddTask }) => {
     estimatedCount: 1,
   });
 
-  const handleSaveTask = () => {
+  const dispatch = useDispatch();
+
+  const handleAddTask = () => {
     const newTask = {
       title: formData.title,
       estimatedCount: formData.estimatedCount,
-      actualCount: 0,
       note: formData.note,
-      isCompleted: false,
     };
-    handleAddTask(newTask);
+    dispatch(addTask(newTask));
     setShowAddTask(false);
   };
 
@@ -81,7 +83,7 @@ const AddTaskItem: React.FC<AddTaskItemProps> = ({ handleAddTask }) => {
               <Button
                 variant="contained"
                 sx={{ backgroundColor: 'black' }}
-                onClick={() => handleSaveTask()}
+                onClick={() => handleAddTask()}
               >
                 Save
               </Button>

@@ -7,23 +7,21 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 
 import { Task } from '../../data/data';
-import { EditedTaskIdOptions } from './HomePage';
 import Form, { EditFormData, FormConfig } from '../../components/Form';
+import { useDispatch } from 'react-redux';
+import { deleteTask, editTask, setEditedTaskId } from './TasksSlice';
 
 interface EditTaskItemProps {
   task: Task;
-  handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-  handleDeleteTask: (taskId: Task['id']) => void;
-  handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
+  // handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
+  // handleDeleteTask: (taskId: Task['id']) => void;
+  // handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
 }
 
-const EditTaskItem: React.FC<EditTaskItemProps> = ({
-  task,
-  handleEditTask,
-  handleDeleteTask,
-  handleChangeEditedTask,
-}) => {
+const EditTaskItem: React.FC<EditTaskItemProps> = ({ task }) => {
   const { id, title, note, estimatedCount, actualCount } = task;
+
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState<EditFormData>({
     title,
@@ -33,17 +31,22 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
   });
 
   const handleSaveTask = () => {
-    handleEditTask(id, {
+    const editedTask = {
+      id,
       title: formData.title,
       estimatedCount: formData.estimatedCount,
       actualCount: formData.actualCount,
       note: formData.note,
-    });
-    handleChangeEditedTask(null);
+    };
+    dispatch(editTask(editedTask));
   };
 
   const handleCancelTask = () => {
-    handleChangeEditedTask(null);
+    dispatch(setEditedTaskId(null));
+  };
+
+  const handleDeleteTask = () => {
+    dispatch(deleteTask(task.id));
   };
 
   const formConfig: FormConfig = {
@@ -80,7 +83,7 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
             color: 'rgb(136, 136, 136)',
             fontWeight: 700,
           }}
-          onClick={() => handleDeleteTask(id)}
+          onClick={() => handleDeleteTask()}
         >
           Delete
         </Button>

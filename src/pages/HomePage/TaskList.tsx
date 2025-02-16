@@ -4,40 +4,33 @@ import IconButton from '@mui/material/IconButton';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 import TaskItem from './TaskItem';
-import AddTaskItem, { NewTask } from './AddTaskItem';
+import AddTaskItem from './AddTaskItem';
 import EditTaskItem from './EditTaskItem';
-import { Task } from '../../data/data';
-import { TaskIteration } from '../../App';
-import { EditedTaskIdOptions } from './HomePage';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 interface TaskListProps {
-  activeTaskId: Task['id'] | null;
-  editedTaskId: EditedTaskIdOptions;
-  tasks: Task[];
-  tasksIteration: TaskIteration;
-  handleAddTask: (task: NewTask) => void;
-  handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-  handleDeleteTask: (taskId: Task['id']) => void;
-  handleChangeActiveTask: (taskId: Task['id']) => void;
-  handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
+  // activeTaskId: Task['id'] | null;
+  // editedTaskId: EditedTaskIdOptions;
+  // tasks: Task[];
+  // tasksIteration: TaskIteration;
+  // handleAddTask: (task: NewTask) => void;
+  // handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
+  // handleDeleteTask: (taskId: Task['id']) => void;
+  // handleChangeActiveTask: (taskId: Task['id']) => void;
+  // handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
 }
 
-const TaskList: React.FC<TaskListProps> = ({
-  activeTaskId,
-  editedTaskId,
-  tasks,
-  tasksIteration,
-  handleAddTask,
-  handleEditTask,
-  handleDeleteTask,
-  handleChangeActiveTask,
-  handleChangeEditedTask,
-}) => {
+const TaskList: React.FC<TaskListProps> = () => {
+  const { tasks, activeTaskId, editedTaskId, taskIteration } = useSelector(
+    (state: RootState) => state.tasks
+  );
+
   return (
     <Box sx={{ width: '480px', m: '8px auto 0' }}>
       <Box>
         <Typography variant="body1" align="center" sx={{ opacity: '0.6' }}>
-          #{tasksIteration.count}
+          #{taskIteration}
         </Typography>
         <Typography variant="body1" fontSize="18px" align="center">
           {tasks.find((t) => t.id === activeTaskId)?.title || 'Time to focus!'}
@@ -61,27 +54,13 @@ const TaskList: React.FC<TaskListProps> = ({
       </Box>
       {tasks.map((task) => {
         return task.id === editedTaskId ? (
-          <EditTaskItem
-            key={task.id}
-            task={task}
-            handleEditTask={handleEditTask}
-            handleDeleteTask={handleDeleteTask}
-            handleChangeEditedTask={handleChangeEditedTask}
-          />
+          <EditTaskItem key={task.id} task={task} />
         ) : (
-          <TaskItem
-            isActive={task.id === activeTaskId}
-            editedTaskId={editedTaskId}
-            key={task.id}
-            task={task}
-            handleEditTask={handleEditTask}
-            handleChangeActiveTask={handleChangeActiveTask}
-            handleChangeEditedTask={handleChangeEditedTask}
-          />
+          <TaskItem key={task.id} task={task} />
         );
       })}
       <Box sx={{ mt: 1.5 }}>
-        <AddTaskItem handleAddTask={handleAddTask} />
+        <AddTaskItem />
       </Box>
     </Box>
   );
