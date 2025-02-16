@@ -1,21 +1,22 @@
-import Card from '@mui/material/Card';
+import { MouseEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
-import { Task } from '../../data/data';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   setActiveTaskId,
   setEditedTaskId,
   toggleTaskIsCompleted,
 } from './TasksSlice';
-import { POMODORO_MODE } from '../../utils/constants';
 import { stopTimer } from './TimerSlice';
+import { Task } from '../../data/data';
 import { RootState } from '../../redux/store';
-import { MouseEvent } from 'react';
+import { POMODORO_MODE } from '../../utils/constants';
 
 interface TaskItemProps {
   task: Task;

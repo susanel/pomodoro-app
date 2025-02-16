@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import { Task } from '../../data/data';
-import Form, { CreateFormData, FormConfig } from '../../components/Form';
-import { useDispatch } from 'react-redux';
 import { addTask } from './TasksSlice';
+import Form, { CreateFormData, FormConfig } from '../../components/Form';
+import { Task } from '../../data/data';
 
 export type NewTask = Omit<Task, 'id'>;
 

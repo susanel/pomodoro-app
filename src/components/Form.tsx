@@ -1,12 +1,12 @@
 import { ChangeEvent, useState } from 'react';
 
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import InputLabel from '@mui/material/InputLabel';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Typography from '@mui/material/Typography';
 
 import { camelize } from '../utils/camelize';
@@ -98,7 +98,7 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
             fontSize: '1rem',
           }}
         >
-          {mode === 'create' ? 'Est Pomodoros' : `Act \/ Est Pomodoros`}
+          {mode === 'create' ? 'Est Pomodoros' : `Act / Est Pomodoros`}
         </InputLabel>
 
         {mode !== 'create' && (

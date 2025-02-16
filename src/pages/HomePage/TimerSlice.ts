@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Modes, modes, ModesOrder, modesOrder } from '../../data/data';
+
+import { ModesOrder, modes, modesOrder } from '../../data/data';
 import { POMODORO_MODE } from '../../utils/constants';
 
 interface TimerState {

@@ -1,9 +1,10 @@
+import { useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
 
-import Timer from './Timer';
-import TaskList from './TaskList';
 import Summary from './Summary';
-import { useSelector } from 'react-redux';
+import TaskList from './TaskList';
+import Timer from './Timer';
 import { RootState } from '../../redux/store';
 
 interface HomePageProps {

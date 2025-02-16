@@ -1,12 +1,13 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MoreIcon from '@mui/icons-material/MoreVert';
+import { useSelector } from 'react-redux';
 
-import TaskItem from './TaskItem';
+import MoreIcon from '@mui/icons-material/MoreVert';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+
 import AddTaskItem from './AddTaskItem';
 import EditTaskItem from './EditTaskItem';
-import { useSelector } from 'react-redux';
+import TaskItem from './TaskItem';
 import { RootState } from '../../redux/store';
 
 interface TaskListProps {

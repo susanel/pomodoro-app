@@ -1,9 +1,10 @@
-import Typography from '@mui/material/Typography';
+import { useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 
 import { Task } from '../../data/data';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
 type Count = 'actualCount' | 'estimatedCount';

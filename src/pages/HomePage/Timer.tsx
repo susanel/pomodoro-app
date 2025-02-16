@@ -1,19 +1,13 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
 import IconButton from '@mui/material/IconButton';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 
-import { modes } from '../../data/data';
-import TimeBar from '../../components/TimeBar';
-import { getPaletteColor } from '../../utils/color';
-import { POMODORO_MODE } from '../../utils/constants';
-import alarmSound from '../../assets/audio/alarm.mp3';
-import clickSound from '../../assets/audio/click.mp3';
-import { useDispatch, useSelector } from 'react-redux';
 import { increaseActualCount, incrementTaskIteration } from './TasksSlice';
 import {
   countDown,
@@ -23,7 +17,13 @@ import {
   startTimer,
   stopTimer,
 } from './TimerSlice';
+import alarmSound from '../../assets/audio/alarm.mp3';
+import clickSound from '../../assets/audio/click.mp3';
+import TimeBar from '../../components/TimeBar';
+import { modes } from '../../data/data';
 import { RootState } from '../../redux/store';
+import { getPaletteColor } from '../../utils/color';
+import { POMODORO_MODE } from '../../utils/constants';
 import { playAudio } from '../../utils/playAudio';
 
 dayjs.extend(duration);

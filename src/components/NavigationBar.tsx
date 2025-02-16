@@ -1,14 +1,13 @@
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Toolbar from '@mui/material/Toolbar';
 
 const NavigationBar = () => {
   return (
