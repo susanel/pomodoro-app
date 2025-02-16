@@ -4,6 +4,8 @@ import { ThemeProvider, createTheme } from '@mui/material';
 
 import App from './App';
 import './index.css';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 // declare additional props that Icon Button doesn't have
 declare module '@mui/material/IconButton' {
@@ -185,7 +187,9 @@ theme = createTheme(theme, {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </ThemeProvider>
   </StrictMode>
 );
