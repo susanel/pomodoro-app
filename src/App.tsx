@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 
 import NavigationBar from './components/NavigationBar';
-import HomePage from './pages/HomePage/HomePage';
 import { modes } from './data/data';
-import { getPaletteColor } from './utils/color';
-import { useSelector } from 'react-redux';
+import HomePage from './pages/HomePage/HomePage';
 import { RootState } from './redux/store';
+import { getPaletteColor } from './utils/color';
 
 function App() {
   const { pomodoroMode } = useSelector((state: RootState) => state.timer);
