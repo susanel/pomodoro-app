@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import duration, { Duration } from 'dayjs/plugin/duration';
+import duration from 'dayjs/plugin/duration';
 import { v4 as uuidv4 } from 'uuid';
 import { POMODORO_MODE } from '../utils/constants';
 
@@ -18,9 +18,11 @@ export interface Task {
   isCompleted: boolean;
 }
 
+export type TaskIdOptions = Task['id'] | null;
+
 export type Modes = {
   [key in POMODORO_MODE]: {
-    duration: Duration;
+    duration: number;
     color: string;
     faviconPath: string;
   };
@@ -55,24 +57,24 @@ export const defaultTasks: Task[] = [
 
 export const modes: Modes = {
   [POMODORO_MODE.POMODORO]: {
-    duration: dayjs.duration(25, 'minutes'),
+    duration: 1500000,
     color: 'pomodoro.red',
     faviconPath: svg_red,
   },
   [POMODORO_MODE.SHORT_BREAK]: {
-    duration: dayjs.duration(5, 'minutes'),
+    duration: 300000,
     color: 'pomodoro.green',
     faviconPath: svg_green,
   },
   [POMODORO_MODE.LONG_BREAK]: {
-    duration: dayjs.duration(15, 'minutes'),
+    duration: 900000,
     color: 'pomodoro.blue',
     faviconPath: svg_blue,
   },
 };
 
-interface ModesOrder {
-  id: number;
+export interface ModesOrder {
+  id: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   type: POMODORO_MODE;
 }
 
