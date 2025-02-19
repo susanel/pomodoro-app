@@ -15,7 +15,7 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = () => {
-  const { tasks } = useSelector((state: RootState) => state.tasks);
+  const tasks = useSelector((state: RootState) => state.tasks.tasks);
 
   return (
     <Box
