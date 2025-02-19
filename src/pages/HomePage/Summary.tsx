@@ -28,11 +28,12 @@ const getFinishAt = (tasks: Task[]) => {
 };
 
 interface SummaryProps {
-  tasks: Task[];
+  // tasks: Task[];
 }
 
 const Summary: React.FC<SummaryProps> = () => {
-  const { tasks } = useSelector((state: RootState) => state.tasks);
+  const tasks = useSelector((state: RootState) => state.tasks.tasks);
+
   return (
     <Box
       sx={{

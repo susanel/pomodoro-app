@@ -26,7 +26,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     >
       <Timer />
       <TaskList />
-      {!!tasks.length && <Summary tasks={tasks} />}
+      {!!tasks.length && <Summary />}
     </Box>
   );
 };
