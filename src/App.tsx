@@ -10,14 +10,16 @@ import { RootState } from './redux/store';
 import { getPaletteColor } from './utils/color';
 
 function App() {
-  const { pomodoroMode } = useSelector((state: RootState) => state.timer);
+  const pomodoroMode = useSelector(
+    (state: RootState) => state.timer.pomodoroMode
+  );
 
   useEffect(() => {
     handleFaviconChange();
   }, [pomodoroMode]);
 
   const handleFaviconChange = () => {
-    const faviconPath = modes[pomodoroMode].faviconPath;
+    const faviconPath = modes[pomodoroMode].faviconPath; // czy takie elementy powinnam otypowac?
 
     const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
     link!.href = faviconPath;
