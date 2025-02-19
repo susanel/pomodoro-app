@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Box from '@mui/material/Box';
@@ -8,7 +8,9 @@ import Typography from '@mui/material/Typography';
 import AddTaskItem from './AddTaskItem';
 import EditTaskItem from './EditTaskItem';
 import TaskItem from './TaskItem';
-import { RootState } from '../../redux/store';
+import { AppDispatch, RootState } from '../../redux/store';
+import { useEffect } from 'react';
+import { fetchTasks } from './TasksSlice';
 
 interface TaskListProps {
   // activeTaskId: Task['id'] | null;
@@ -23,9 +25,20 @@ interface TaskListProps {
 }
 
 const TaskList: React.FC<TaskListProps> = () => {
-  const { tasks, activeTaskId, editedTaskId, taskIteration } = useSelector(
-    (state: RootState) => state.tasks
-  );
+  const { tasks, activeTaskId, editedTaskId, taskIteration, loading } =
+    useSelector((state: RootState) => state.tasks);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchTasks(1234));
+  }, []);
+
+  // Po co uzywac dispatch w [], skoro chce aby aplikacja wywolala kod jedynie raz
+  // useEffect(() => {
+  //   dispatch(fetchTasks(1234));
+  // }, [dispatch]);
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <Box sx={{ width: '480px', m: '8px auto 0' }}>
@@ -48,6 +61,7 @@ const TaskList: React.FC<TaskListProps> = () => {
           pb: 1.75,
         }}
       >
+        {/* {Math.random()} // Dlaczego dodanie tej linijki powoduje dodanie wiecej taskow? */}
         Tasks
         <IconButton variant="contained">
           <MoreIcon />

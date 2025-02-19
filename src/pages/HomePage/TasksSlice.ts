@@ -1,21 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Task, TaskIdOptions, defaultTasks } from '../../data/data';
+import { Task, TaskIdOptions } from '../../data/data';
+import { fetchTasksByUserId } from '../../api/api';
 
 interface TasksState {
   tasks: Task[];
   activeTaskId: TaskIdOptions;
   editedTaskId: TaskIdOptions;
   taskIteration: number;
+  loading: boolean;
 }
 
 const initialState: TasksState = {
-  tasks: [...defaultTasks],
+  tasks: [],
   activeTaskId: null,
   editedTaskId: null,
   taskIteration: 1,
+  loading: false,
 };
+
+export const fetchTasks = createAsyncThunk(
+  'tasks/fetchTasks',
+  async (userId: number) => {
+    const response = await fetchTasksByUserId(userId);
+    return response;
+  }
+);
 
 const tasksSlice = createSlice({
   name: 'tasks',
@@ -68,6 +79,21 @@ const tasksSlice = createSlice({
     incrementTaskIteration: (state) => {
       state.taskIteration = state.taskIteration + 1;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchTasks.pending, (state, action) => {
+      console.log('pending');
+      state.loading = true;
+    });
+    builder.addCase(fetchTasks.fulfilled, (state, action) => {
+      console.log('fullfilled');
+      state.loading = false;
+      state.tasks.push(...action.payload);
+    });
+    builder.addCase(fetchTasks.rejected, (state, action) => {
+      console.log('rejected');
+      state.loading = false;
+    });
   },
 });
 
