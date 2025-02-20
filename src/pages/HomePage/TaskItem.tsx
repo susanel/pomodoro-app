@@ -32,9 +32,13 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const { editedTaskId, activeTaskId } = useSelector(
     (state: RootState) => state.tasks
   );
-  const { pomodoroMode, isTimerRunning } = useSelector(
-    (state: RootState) => state.timer
+  const isTimerRunning = useSelector(
+    (state: RootState) => state.timer.isTimerRunning
   );
+  const pomodoroMode = useSelector(
+    (state: RootState) => state.timer.pomodoroMode
+  );
+
   const dispatch = useDispatch();
 
   const handleChangeActiveTask = () => {
