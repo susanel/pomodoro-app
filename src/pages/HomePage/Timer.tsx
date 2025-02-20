@@ -25,6 +25,7 @@ import { RootState } from '../../redux/store';
 import { getPaletteColor } from '../../utils/color';
 import { POMODORO_MODE } from '../../utils/constants';
 import { playAudio } from '../../utils/playAudio';
+import { selectActiveTask } from '../../redux/selectors';
 
 dayjs.extend(duration);
 
@@ -56,11 +57,9 @@ const Timer: React.FC<TimerProps> = () => {
   const { pomodoroMode, isTimerRunning, timer } = useSelector(
     (state: RootState) => state.timer
   );
-  const { activeTaskId, tasks } = useSelector(
-    (state: RootState) => state.tasks
-  );
 
-  const activeTask = tasks.find((t) => t.id === activeTaskId);
+  const { activeTaskId, activeTask } = useSelector(selectActiveTask);
+
   const dispatch = useDispatch();
 
   const handleTimerModeChange = (mode: POMODORO_MODE) => {
@@ -91,6 +90,7 @@ const Timer: React.FC<TimerProps> = () => {
     return () => clearInterval(intervalId);
   }, [isTimerRunning]);
 
+  // should i add custom hooks here?
   useEffect(() => {
     if (timer <= 0) {
       dispatch(increaseActualCount(activeTaskId));
