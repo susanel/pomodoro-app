@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { useId, useState } from "react";
 
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
 
-import { Task } from '../../data/data';
-import { EditedTaskIdOptions } from './HomePage';
-import Form, { EditFormData, FormConfig } from '../../components/Form';
+import { Task } from "../../data/data";
+import { EditedTaskIdOptions } from "./HomePage";
+import Form, { EditFormData } from "../../components/Form";
 
 interface EditTaskItemProps {
   task: Task;
-  handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-  handleDeleteTask: (taskId: Task['id']) => void;
+  handleEditTask: (taskId: Task["id"], data: Partial<Task>) => void;
+  handleDeleteTask: (taskId: Task["id"]) => void;
   handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
 }
 
@@ -23,17 +23,8 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
   handleDeleteTask,
   handleChangeEditedTask,
 }) => {
-  const { id, title, note, estimatedCount, actualCount } = task;
-
-  const [formData, setFormData] = useState<EditFormData>({
-    title,
-    note,
-    actualCount,
-    estimatedCount,
-  });
-
-  const handleSaveTask = () => {
-    handleEditTask(id, {
+  const handleSaveTask = (formData: EditFormData) => {
+    handleEditTask(task.id, {
       title: formData.title,
       estimatedCount: formData.estimatedCount,
       actualCount: formData.actualCount,
@@ -46,53 +37,48 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
     handleChangeEditedTask(null);
   };
 
-  const formConfig: FormConfig = {
-    formData,
-    mode: 'edit',
-  };
-
-  const handleFormData = (newState: Partial<EditFormData>) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      ...newState,
-    }));
-  };
+  const formId = useId();
 
   return (
     <Card sx={{ mt: 1.5 }}>
       <CardContent>
-        <Form config={formConfig} handleFormData={handleFormData} />
+        <Form
+          id={formId}
+          mode="edit"
+          initialValues={task}
+          handleFormData={handleSaveTask}
+        />
       </CardContent>
 
       <CardActions
         sx={{
           py: 1.75,
           px: 2.5,
-          backgroundColor: 'rgb(239, 239, 239)',
-          justifyContent: 'space-between',
+          backgroundColor: "rgb(239, 239, 239)",
+          justifyContent: "space-between",
         }}
       >
         <Button
           variant="text"
           sx={{
             py: 1,
-            justifyContent: 'flex-start',
-            color: 'rgb(136, 136, 136)',
+            justifyContent: "flex-start",
+            color: "rgb(136, 136, 136)",
             fontWeight: 700,
           }}
-          onClick={() => handleDeleteTask(id)}
+          onClick={() => handleDeleteTask(task.id)}
         >
           Delete
         </Button>
 
-        <Box sx={{ ml: 'auto' }}>
+        <Box sx={{ ml: "auto" }}>
           <Button
             variant="text"
             sx={{
               mr: 1.75,
               py: 1,
               flexWrap: 1,
-              color: 'rgb(136, 136, 136)',
+              color: "rgb(136, 136, 136)",
               fontWeight: 700,
             }}
             onClick={() => handleCancelTask()}
@@ -100,9 +86,10 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({
             Cancel
           </Button>
           <Button
+            form={formId}
+            type="submit"
             variant="contained"
-            sx={{ backgroundColor: 'black' }}
-            onClick={() => handleSaveTask()}
+            sx={{ backgroundColor: "black" }}
           >
             Save
           </Button>

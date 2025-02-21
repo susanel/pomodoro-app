@@ -1,30 +1,26 @@
-import React, { useState } from 'react';
+import React, { useId, useState } from "react";
 
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
-import { Task } from '../../data/data';
-import Form, { CreateFormData, FormConfig } from '../../components/Form';
+import { Task } from "../../data/data";
+import Form, { CreateFormData, FormConfig } from "../../components/Form";
 
-export type NewTask = Omit<Task, 'id'>;
+export type NewTask = Omit<Task, "id">;
 
-interface CreateTaskItemProps {
+type Props = {
   handleAddTask: (task: NewTask) => void;
-}
+};
 
-const CreateTaskItem: React.FC<CreateTaskItemProps> = ({ handleAddTask }) => {
+
+const CreateTaskItem = ({ handleAddTask }: Props) => {
   const [showCreateTask, setShowCreateTask] = useState(false);
-  const [formData, setFormData] = useState<CreateFormData>({
-    title: '',
-    note: '',
-    estimatedCount: 1,
-  });
 
-  const handleSaveTask = () => {
+  const handleSaveTask = (formData: CreateFormData) => {
     const newTask = {
       title: formData.title,
       estimatedCount: formData.estimatedCount,
@@ -36,42 +32,36 @@ const CreateTaskItem: React.FC<CreateTaskItemProps> = ({ handleAddTask }) => {
     setShowCreateTask(false);
   };
 
-  const handleFormData = (newState: Partial<CreateFormData>) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      ...newState,
-    }));
-  };
-
-  const formConfig: FormConfig = {
-    formData,
-    mode: 'create',
-  };
+  const formId = useId();
 
   return (
     <>
       {showCreateTask ? (
         <Card sx={{ mt: 1.5 }}>
           <CardContent>
-            <Form config={formConfig} handleFormData={handleFormData} />
+            <Form
+              id={formId}
+              mode="create"
+              handleFormData={handleSaveTask}
+            />
           </CardContent>
 
           <CardActions
             sx={{
               py: 1.75,
               px: 2.5,
-              backgroundColor: 'rgb(239, 239, 239)',
-              justifyContent: 'space-between',
+              backgroundColor: "rgb(239, 239, 239)",
+              justifyContent: "space-between",
             }}
           >
-            <Box sx={{ ml: 'auto' }}>
+            <Box sx={{ ml: "auto" }}>
               <Button
                 variant="text"
                 sx={{
                   mr: 1.75,
                   py: 1,
                   flexWrap: 1,
-                  color: 'rgb(136, 136, 136)',
+                  color: "rgb(136, 136, 136)",
                   fontWeight: 700,
                 }}
                 onClick={() => setShowCreateTask(false)}
@@ -79,9 +69,10 @@ const CreateTaskItem: React.FC<CreateTaskItemProps> = ({ handleAddTask }) => {
                 Cancel
               </Button>
               <Button
+                form={formId}
+                type="submit"
                 variant="contained"
-                sx={{ backgroundColor: 'black' }}
-                onClick={() => handleSaveTask()}
+                sx={{ backgroundColor: "black" }}
               >
                 Save
               </Button>
@@ -91,7 +82,7 @@ const CreateTaskItem: React.FC<CreateTaskItemProps> = ({ handleAddTask }) => {
       ) : (
         <Button
           variant="dashed"
-          sx={{ p: 0, lineHeight: '60px', width: '100%' }}
+          sx={{ p: 0, lineHeight: "60px", width: "100%" }}
           startIcon={<AddCircleIcon fontSize="large" />}
           onClick={() => {
             setShowCreateTask(true);
