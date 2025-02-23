@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 
-import NavigationBar from './components/NavigationBar';
-import { modes } from './data/data';
-import HomePage from './pages/HomePage/HomePage';
-import { RootState } from './redux/store';
-import { getPaletteColor } from './utils/color';
+import NavigationBar from "./components/NavigationBar";
+import { modes } from "./data/data";
+import HomePage from "./pages/HomePage/HomePage";
+import { RootState } from "./redux/store";
+import { getPaletteColor } from "./utils/color";
 
 function App() {
   const pomodoroMode = useSelector(
@@ -28,7 +28,7 @@ function App() {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
+        minHeight: "100vh",
         backgroundColor: getPaletteColor(pomodoroMode),
       }}
     >

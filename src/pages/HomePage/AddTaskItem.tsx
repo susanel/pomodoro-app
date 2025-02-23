@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
 
-import { addTask } from './TasksSlice';
-import Form, { CreateFormData, FormConfig } from '../../components/Form';
-import { Task } from '../../data/data';
+import { addTask } from "./TasksSlice";
+import Form, { CreateFormData, FormConfig } from "../../components/Form";
+import { Task } from "../../data/data";
 
-export type NewTask = Omit<Task, 'id'>;
+export type NewTask = Omit<Task, "id">;
 
 interface AddTaskItemProps {
   // handleAddTask: (task: NewTask) => void;
@@ -21,8 +21,8 @@ interface AddTaskItemProps {
 const AddTaskItem: React.FC<AddTaskItemProps> = () => {
   const [showAddTask, setShowAddTask] = useState(false);
   const [formData, setFormData] = useState<CreateFormData>({
-    title: '',
-    note: '',
+    title: "",
+    note: "",
     estimatedCount: 1,
   });
 
@@ -47,7 +47,7 @@ const AddTaskItem: React.FC<AddTaskItemProps> = () => {
 
   const formConfig: FormConfig = {
     formData,
-    mode: 'create',
+    mode: "create",
   };
 
   return (
@@ -62,18 +62,18 @@ const AddTaskItem: React.FC<AddTaskItemProps> = () => {
             sx={{
               py: 1.75,
               px: 2.5,
-              backgroundColor: 'rgb(239, 239, 239)',
-              justifyContent: 'space-between',
+              backgroundColor: "rgb(239, 239, 239)",
+              justifyContent: "space-between",
             }}
           >
-            <Box sx={{ ml: 'auto' }}>
+            <Box sx={{ ml: "auto" }}>
               <Button
                 variant="text"
                 sx={{
                   mr: 1.75,
                   py: 1,
                   flexWrap: 1,
-                  color: 'rgb(136, 136, 136)',
+                  color: "rgb(136, 136, 136)",
                   fontWeight: 700,
                 }}
                 onClick={() => setShowAddTask(false)}
@@ -82,7 +82,7 @@ const AddTaskItem: React.FC<AddTaskItemProps> = () => {
               </Button>
               <Button
                 variant="contained"
-                sx={{ backgroundColor: 'black' }}
+                sx={{ backgroundColor: "black" }}
                 onClick={() => handleAddTask()}
               >
                 Save
@@ -93,7 +93,7 @@ const AddTaskItem: React.FC<AddTaskItemProps> = () => {
       ) : (
         <Button
           variant="dashed"
-          sx={{ p: 0, lineHeight: '60px', width: '100%' }}
+          sx={{ p: 0, lineHeight: "60px", width: "100%" }}
           startIcon={<AddCircleIcon fontSize="large" />}
           onClick={() => {
             setShowAddTask(true);

@@ -1,12 +1,12 @@
-import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
-import { v4 as uuidv4 } from 'uuid';
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import { v4 as uuidv4 } from "uuid";
 
-import { POMODORO_MODE } from '../utils/constants';
+import { POMODORO_MODE } from "../utils/constants";
 
-import svg_red from '/favicon_red.svg';
-import svg_green from '/favicon_green.svg';
-import svg_blue from '/favicon_blue.svg';
+import svg_red from "/favicon_red.svg";
+import svg_green from "/favicon_green.svg";
+import svg_blue from "/favicon_blue.svg";
 
 dayjs.extend(duration);
 
@@ -19,7 +19,7 @@ export interface Task {
   isCompleted: boolean;
 }
 
-export type TaskIdOptions = Task['id'] | null;
+export type TaskIdOptions = Task["id"] | null;
 
 export type Modes = {
   [key in POMODORO_MODE]: {
@@ -32,24 +32,24 @@ export type Modes = {
 export const defaultTasks: Task[] = [
   {
     id: uuidv4(),
-    title: 'Learn SQL',
-    note: '',
+    title: "Learn SQL",
+    note: "",
     estimatedCount: 1,
     actualCount: 1,
     isCompleted: false,
   },
   {
     id: uuidv4(),
-    title: 'Learn RTL',
-    note: 'Test note',
+    title: "Learn RTL",
+    note: "Test note",
     estimatedCount: 4,
     actualCount: 1,
     isCompleted: false,
   },
   {
     id: uuidv4(),
-    title: 'Answear Email',
-    note: '',
+    title: "Answear Email",
+    note: "",
     estimatedCount: 0.1,
     actualCount: 0,
     isCompleted: false,
@@ -59,17 +59,17 @@ export const defaultTasks: Task[] = [
 export const modes: Modes = {
   [POMODORO_MODE.POMODORO]: {
     duration: 1500000,
-    color: 'pomodoro.red',
+    color: "pomodoro.red",
     faviconPath: svg_red,
   },
   [POMODORO_MODE.SHORT_BREAK]: {
     duration: 300000,
-    color: 'pomodoro.green',
+    color: "pomodoro.green",
     faviconPath: svg_green,
   },
   [POMODORO_MODE.LONG_BREAK]: {
     duration: 900000,
-    color: 'pomodoro.blue',
+    color: "pomodoro.blue",
     faviconPath: svg_blue,
   },
 };

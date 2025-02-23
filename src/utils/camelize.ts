@@ -4,5 +4,5 @@ export const camelize = (str: string) => {
     .replace(/(?:\b\w)/g, function (word, index) {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();
     })
-    .replace(/[\s-]+/g, '');
+    .replace(/[\s-]+/g, "");
 };

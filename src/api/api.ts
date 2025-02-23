@@ -1,4 +1,4 @@
-import { defaultTasks, Task } from '../data/data';
+import { defaultTasks, Task } from "../data/data";
 
 interface TasksPayload {
   data: {

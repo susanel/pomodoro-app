@@ -1,16 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import MoreIcon from '@mui/icons-material/MoreVert';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import MoreIcon from "@mui/icons-material/MoreVert";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
-import AddTaskItem from './AddTaskItem';
-import EditTaskItem from './EditTaskItem';
-import TaskItem from './TaskItem';
-import { AppDispatch, RootState } from '../../redux/store';
-import { useEffect } from 'react';
-import { fetchTasks } from './TasksSlice';
+import AddTaskItem from "./AddTaskItem";
+import EditTaskItem from "./EditTaskItem";
+import TaskItem from "./TaskItem";
+import { fetchTasks } from "./TasksSlice";
+import { AppDispatch, RootState } from "../../redux/store";
 
 interface TaskListProps {
   // activeTaskId: Task['id'] | null;
@@ -41,21 +41,21 @@ const TaskList: React.FC<TaskListProps> = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <Box sx={{ width: '480px', m: '8px auto 0' }}>
+    <Box sx={{ width: "480px", m: "8px auto 0" }}>
       <Box>
-        <Typography variant="body1" align="center" sx={{ opacity: '0.6' }}>
+        <Typography variant="body1" align="center" sx={{ opacity: "0.6" }}>
           #{taskIteration}
         </Typography>
         <Typography variant="body1" fontSize="18px" align="center">
-          {tasks.find((t) => t.id === activeTaskId)?.title || 'Time to focus!'}
+          {tasks.find((t) => t.id === activeTaskId)?.title || "Time to focus!"}
         </Typography>
       </Box>
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          borderBottom: '1px solid white',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderBottom: "1px solid white",
           mb: 2,
           mt: 2.5,
           pb: 1.75,

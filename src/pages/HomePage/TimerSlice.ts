@@ -1,13 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import { ModesOrder, modes, modesOrder } from '../../data/data';
-import { POMODORO_MODE } from '../../utils/constants';
+import { ModesOrder, modes, modesOrder } from "../../data/data";
+import { POMODORO_MODE } from "../../utils/constants";
 
 interface TimerState {
   // timer: Duration; // A non-serializable value was detected in the state, in the path: `timer.timer`.
   timer: number;
   pomodoroMode: POMODORO_MODE;
-  currentModeIndex: ModesOrder['id'];
+  currentModeIndex: ModesOrder["id"];
   isTimerRunning: boolean;
 }
 
@@ -19,7 +19,7 @@ const initialState: TimerState = {
 };
 
 const timerSlice = createSlice({
-  name: 'timer',
+  name: "timer",
   initialState,
   reducers: {
     // nie jestem pewna czy tyle roznych zmiennych stanu moge/powinnam w jednym reducerze zmieniac
@@ -32,7 +32,7 @@ const timerSlice = createSlice({
       const nextModeIndex =
         state.currentModeIndex === 8
           ? 1
-          : ((state.currentModeIndex + 1) as ModesOrder['id']);
+          : ((state.currentModeIndex + 1) as ModesOrder["id"]);
       const nextMode = modesOrder[nextModeIndex - 1].type;
       state.currentModeIndex = nextModeIndex;
       state.pomodoroMode = nextMode;

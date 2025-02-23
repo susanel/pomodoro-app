@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 
-import tasksReducer from '../pages/HomePage/TasksSlice';
-import timerReducer from '../pages/HomePage/TimerSlice';
+import tasksReducer from "../pages/HomePage/TasksSlice";
+import timerReducer from "../pages/HomePage/TimerSlice";
 
 export const store = configureStore({
   reducer: {

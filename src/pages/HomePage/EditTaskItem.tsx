@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
 
-import { deleteTask, editTask, setEditedTaskId } from './TasksSlice';
-import Form, { EditFormData, FormConfig } from '../../components/Form';
-import { Task } from '../../data/data';
+import { deleteTask, editTask, setEditedTaskId } from "./TasksSlice";
+import Form, { EditFormData, FormConfig } from "../../components/Form";
+import { Task } from "../../data/data";
 
 interface EditTaskItemProps {
   task: Task;
@@ -51,7 +51,7 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({ task }) => {
 
   const formConfig: FormConfig = {
     formData,
-    mode: 'edit',
+    mode: "edit",
   };
 
   const handleFormData = (newState: Partial<EditFormData>) => {
@@ -71,16 +71,16 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({ task }) => {
         sx={{
           py: 1.75,
           px: 2.5,
-          backgroundColor: 'rgb(239, 239, 239)',
-          justifyContent: 'space-between',
+          backgroundColor: "rgb(239, 239, 239)",
+          justifyContent: "space-between",
         }}
       >
         <Button
           variant="text"
           sx={{
             py: 1,
-            justifyContent: 'flex-start',
-            color: 'rgb(136, 136, 136)',
+            justifyContent: "flex-start",
+            color: "rgb(136, 136, 136)",
             fontWeight: 700,
           }}
           onClick={() => handleDeleteTask()}
@@ -88,14 +88,14 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({ task }) => {
           Delete
         </Button>
 
-        <Box sx={{ ml: 'auto' }}>
+        <Box sx={{ ml: "auto" }}>
           <Button
             variant="text"
             sx={{
               mr: 1.75,
               py: 1,
               flexWrap: 1,
-              color: 'rgb(136, 136, 136)',
+              color: "rgb(136, 136, 136)",
               fontWeight: 700,
             }}
             onClick={() => handleCancelTask()}
@@ -104,7 +104,7 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({ task }) => {
           </Button>
           <Button
             variant="contained"
-            sx={{ backgroundColor: 'black' }}
+            sx={{ backgroundColor: "black" }}
             onClick={() => handleSaveTask()}
           >
             Save

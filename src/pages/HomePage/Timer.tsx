@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
 
-import { increaseActualCount, incrementTaskIteration } from './TasksSlice';
+import { increaseActualCount, incrementTaskIteration } from "./TasksSlice";
 import {
   countDown,
   setMode,
@@ -16,22 +16,22 @@ import {
   setTimer,
   startTimer,
   stopTimer,
-} from './TimerSlice';
-import alarmSound from '../../assets/audio/alarm.mp3';
-import clickSound from '../../assets/audio/click.mp3';
-import TimeBar from '../../components/TimeBar';
-import { modes } from '../../data/data';
-import { RootState } from '../../redux/store';
-import { getPaletteColor } from '../../utils/color';
-import { POMODORO_MODE } from '../../utils/constants';
-import { playAudio } from '../../utils/playAudio';
-import { selectActiveTask } from '../../redux/selectors';
+} from "./TimerSlice";
+import alarmSound from "../../assets/audio/alarm.mp3";
+import clickSound from "../../assets/audio/click.mp3";
+import TimeBar from "../../components/TimeBar";
+import { modes } from "../../data/data";
+import { selectActiveTask } from "../../redux/selectors";
+import { RootState } from "../../redux/store";
+import { getPaletteColor } from "../../utils/color";
+import { POMODORO_MODE } from "../../utils/constants";
+import { playAudio } from "../../utils/playAudio";
 
 dayjs.extend(duration);
 
 interface StyledButtonsProps {
-  variant: 'contained' | 'text';
-  color: 'primary' | 'secondary';
+  variant: "contained" | "text";
+  color: "primary" | "secondary";
 }
 
 const getButtonStyles = (
@@ -39,8 +39,8 @@ const getButtonStyles = (
   buttonMode: POMODORO_MODE
 ): StyledButtonsProps => {
   return pomodoroMode === buttonMode
-    ? { variant: 'contained', color: 'secondary' }
-    : { variant: 'text', color: 'primary' };
+    ? { variant: "contained", color: "secondary" }
+    : { variant: "text", color: "primary" };
 };
 
 interface TimerProps {
@@ -104,18 +104,18 @@ const Timer: React.FC<TimerProps> = () => {
   }, [timer]);
 
   const handleDocumentTitle = () => {
-    let titleText = '';
+    let titleText = "";
     switch (pomodoroMode) {
       case POMODORO_MODE.POMODORO:
-        titleText = activeTask ? activeTask.title : 'Time to focus!';
+        titleText = activeTask ? activeTask.title : "Time to focus!";
         break;
       case POMODORO_MODE.SHORT_BREAK:
       case POMODORO_MODE.LONG_BREAK:
-        titleText = 'Time for a break!';
+        titleText = "Time for a break!";
         break;
     }
 
-    document.title = `${dayjs(timer).format('mm:ss')} - ${titleText}`;
+    document.title = `${dayjs(timer).format("mm:ss")} - ${titleText}`;
   };
 
   const handleSkipCurrentMode = () => {
@@ -150,17 +150,17 @@ const Timer: React.FC<TimerProps> = () => {
       <TimeBar value={countTaskProgress()} />
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '480px',
-          m: '0 auto 20px',
+          display: "flex",
+          flexDirection: "column",
+          width: "480px",
+          m: "0 auto 20px",
           pt: 2.5,
           pb: 3.75,
-          borderRadius: '6px',
-          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: "6px",
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
         }}
       >
-        <Box sx={{ m: '0 auto' }}>
+        <Box sx={{ m: "0 auto" }}>
           <Button
             {...getButtonStyles(pomodoroMode, POMODORO_MODE.POMODORO)}
             onClick={() => handleTimerModeChange(POMODORO_MODE.POMODORO)}
@@ -181,56 +181,56 @@ const Timer: React.FC<TimerProps> = () => {
           </Button>
         </Box>
 
-        <Box sx={{ m: '0 auto', fontSize: '120px', fontWeight: 700 }}>
-          <span>{dayjs.duration(timer).format('mm:ss')}</span>
+        <Box sx={{ m: "0 auto", fontSize: "120px", fontWeight: 700 }}>
+          <span>{dayjs.duration(timer).format("mm:ss")}</span>
         </Box>
 
         <Box
           sx={{
-            mt: '20px',
-            display: 'grid',
+            mt: "20px",
+            display: "grid",
             px: 2,
-            gridTemplateColumns: '1fr min-content 1fr',
-            boxSizing: 'border-box',
+            gridTemplateColumns: "1fr min-content 1fr",
+            boxSizing: "border-box",
           }}
         >
           <Button
             variant="contained"
             color="tertiary"
             sx={{
-              width: '200px',
-              lineHeight: '55px',
-              fontSize: '22px',
-              fontWeight: '700',
-              gridColumn: '2 / span 1',
+              width: "200px",
+              lineHeight: "55px",
+              fontSize: "22px",
+              fontWeight: "700",
+              gridColumn: "2 / span 1",
               p: 0,
               color: getPaletteColor(pomodoroMode),
               ...(isTimerRunning && {
-                boxShadow: 'none',
-                '&:hover': { boxShadow: 'none' },
+                boxShadow: "none",
+                "&:hover": { boxShadow: "none" },
               }),
             }}
             onClick={() => handleTimerToggle()}
           >
-            {isTimerRunning ? 'pause' : 'start'}
+            {isTimerRunning ? "pause" : "start"}
           </Button>
 
           <IconButton
             sx={{
-              fontSize: '44px',
-              gridColumn: '3 / span 1',
+              fontSize: "44px",
+              gridColumn: "3 / span 1",
               p: 0,
-              transition: 'opacity .2s ease-out',
+              transition: "opacity .2s ease-out",
               opacity: isTimerRunning ? 1 : 0,
-              pointerEvents: isTimerRunning ? 'auto' : 'none',
-              '&:hover': {
-                opacity: '0.8',
-                backgroundColor: 'rgba(0, 0, 0, 0)',
+              pointerEvents: isTimerRunning ? "auto" : "none",
+              "&:hover": {
+                opacity: "0.8",
+                backgroundColor: "rgba(0, 0, 0, 0)",
               },
             }}
             onClick={() => handleSkipCurrentMode()}
           >
-            <SkipNextIcon fontSize="inherit" sx={{ color: 'white' }} />
+            <SkipNextIcon fontSize="inherit" sx={{ color: "white" }} />
           </IconButton>
         </Box>
       </Box>

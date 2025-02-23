@@ -1,11 +1,11 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 
-import Summary from './Summary';
-import TaskList from './TaskList';
-import Timer from './Timer';
-import { RootState } from '../../redux/store';
+import Summary from "./Summary";
+import TaskList from "./TaskList";
+import Timer from "./Timer";
+import { RootState } from "../../redux/store";
 
 interface HomePageProps {
   // pomodoroMode: POMODORO_MODE;
@@ -20,8 +20,8 @@ const HomePage: React.FC<HomePageProps> = () => {
   return (
     <Box
       sx={{
-        width: '620px',
-        m: '0 auto',
+        width: "620px",
+        m: "0 auto",
       }}
     >
       <Timer />
