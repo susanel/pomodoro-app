@@ -1,36 +1,21 @@
-import { useState } from 'react';
-
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import TaskItem from './TaskItem';
+import CreateTaskItem, { NewTask } from './CreateTaskItem';
 import EditTaskItem from './EditTaskItem';
 import { Task } from '../../data/data';
 import { TaskIteration } from '../../App';
 import { EditedTaskIdOptions } from './HomePage';
-
-// type TaskListProps = {
-//   activeTaskId: Task['id'] | null;
-//   editedTaskId: Task['id'] | null;
-//   tasks: Task[];
-//   tasksIteration: TaskIteration;
-//   handleAddTask: (task: Omit<Task, 'id'>) => void;
-//   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-//   handleDeleteTask: (taskId: Task['id']) => void;
-//   handleChangeActiveTask: (taskId: Task['id']) => void;
-//   handleChangeEditedTask: (taskId: Task['id'] | null) => void;
-// };
 
 interface TaskListProps {
   activeTaskId: Task['id'] | null;
   editedTaskId: EditedTaskIdOptions;
   tasks: Task[];
   tasksIteration: TaskIteration;
-  handleAddTask: (task: Omit<Task, 'id'>) => void;
+  handleAddTask: (task: NewTask) => void;
   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
   handleDeleteTask: (taskId: Task['id']) => void;
   handleChangeActiveTask: (taskId: Task['id']) => void;
@@ -79,7 +64,6 @@ const TaskList: React.FC<TaskListProps> = ({
           <EditTaskItem
             key={task.id}
             task={task}
-            handleAddTask={handleAddTask}
             handleEditTask={handleEditTask}
             handleDeleteTask={handleDeleteTask}
             handleChangeEditedTask={handleChangeEditedTask}
@@ -97,27 +81,7 @@ const TaskList: React.FC<TaskListProps> = ({
         );
       })}
       <Box sx={{ mt: 1.5 }}>
-        {editedTaskId !== 'new-task' && (
-          <Button
-            variant="dashed"
-            sx={{ p: 0, lineHeight: '60px', width: '100%' }}
-            startIcon={<AddCircleIcon fontSize="large" />}
-            onClick={() => {
-              handleChangeEditedTask('new-task');
-            }}
-          >
-            Add Task
-          </Button>
-        )}
-        {editedTaskId === 'new-task' && (
-          <EditTaskItem
-            key={'new-task'}
-            handleAddTask={handleAddTask}
-            handleEditTask={handleEditTask}
-            handleDeleteTask={handleDeleteTask}
-            handleChangeEditedTask={handleChangeEditedTask}
-          />
-        )}
+        <CreateTaskItem handleAddTask={handleAddTask} />
       </Box>
     </Box>
   );

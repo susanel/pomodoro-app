@@ -31,16 +31,6 @@ const getButtonStyles = (
     : { variant: 'text', color: 'primary' };
 };
 
-// type TimerProps = {
-//   pomodoroMode: POMODORO_MODE; // can take enum?
-//   activeTask: Task;
-//   isCounting: boolean;
-//   setIsCounting: (isCounting: boolean) => void;
-//   handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-//   handleModeChange: (mode?: POMODORO_MODE) => void;
-//   handleTasksIterationChange: (data: Partial<TaskIteration>) => void;
-// };
-
 interface TimerProps {
   pomodoroMode: POMODORO_MODE; // can take enum?
   activeTask: Task;
@@ -260,5 +250,4 @@ const Timer: React.FC<TimerProps> = ({
     </>
   );
 };
-
 export default Timer;
