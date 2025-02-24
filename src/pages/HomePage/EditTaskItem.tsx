@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useId } from "react";
 import { useDispatch } from "react-redux";
 
 import Box from "@mui/material/Box";
@@ -8,7 +8,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 
 import { deleteTask, editTask, setEditedTaskId } from "./TasksSlice";
-import Form, { EditFormData, FormConfig } from "../../components/Form";
+import Form, { EditFormData } from "../../components/Form";
 import { Task } from "../../data/data";
 
 interface EditTaskItemProps {
@@ -19,20 +19,11 @@ interface EditTaskItemProps {
 }
 
 const EditTaskItem: React.FC<EditTaskItemProps> = ({ task }) => {
-  const { id, title, note, estimatedCount, actualCount } = task;
-
   const dispatch = useDispatch();
 
-  const [formData, setFormData] = useState<EditFormData>({
-    title,
-    note,
-    actualCount,
-    estimatedCount,
-  });
-
-  const handleSaveTask = () => {
+  const handleSaveTask = (formData: EditFormData) => {
     const editedTask = {
-      id,
+      id: task.id,
       title: formData.title,
       estimatedCount: formData.estimatedCount,
       actualCount: formData.actualCount,
@@ -49,22 +40,17 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({ task }) => {
     dispatch(deleteTask(task.id));
   };
 
-  const formConfig: FormConfig = {
-    formData,
-    mode: "edit",
-  };
-
-  const handleFormData = (newState: Partial<EditFormData>) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      ...newState,
-    }));
-  };
+  const formId = useId();
 
   return (
     <Card sx={{ mt: 1.5 }}>
       <CardContent>
-        <Form config={formConfig} handleFormData={handleFormData} />
+        <Form
+          id={formId}
+          initialValues={task}
+          mode="edit"
+          handleFormData={handleSaveTask}
+        />
       </CardContent>
 
       <CardActions
@@ -103,9 +89,10 @@ const EditTaskItem: React.FC<EditTaskItemProps> = ({ task }) => {
             Cancel
           </Button>
           <Button
+            form={formId}
+            type="submit"
             variant="contained"
             sx={{ backgroundColor: "black" }}
-            onClick={() => handleSaveTask()}
           >
             Save
           </Button>

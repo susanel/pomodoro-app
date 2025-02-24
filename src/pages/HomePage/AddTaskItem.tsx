@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -9,7 +9,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 
 import { addTask } from "./TasksSlice";
-import Form, { CreateFormData, FormConfig } from "../../components/Form";
+import Form, { CreateFormData } from "../../components/Form";
 import { Task } from "../../data/data";
 
 export type NewTask = Omit<Task, "id">;
@@ -20,15 +20,10 @@ interface AddTaskItemProps {
 
 const AddTaskItem: React.FC<AddTaskItemProps> = () => {
   const [showAddTask, setShowAddTask] = useState(false);
-  const [formData, setFormData] = useState<CreateFormData>({
-    title: "",
-    note: "",
-    estimatedCount: 1,
-  });
 
   const dispatch = useDispatch();
 
-  const handleAddTask = () => {
+  const handleAddTask = (formData: CreateFormData) => {
     const newTask = {
       title: formData.title,
       estimatedCount: formData.estimatedCount,
@@ -38,24 +33,14 @@ const AddTaskItem: React.FC<AddTaskItemProps> = () => {
     setShowAddTask(false);
   };
 
-  const handleFormData = (newState: Partial<CreateFormData>) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      ...newState,
-    }));
-  };
-
-  const formConfig: FormConfig = {
-    formData,
-    mode: "create",
-  };
+  const formId = useId();
 
   return (
     <>
       {showAddTask ? (
         <Card sx={{ mt: 1.5 }}>
           <CardContent>
-            <Form config={formConfig} handleFormData={handleFormData} />
+            <Form id={formId} mode="create" handleFormData={handleAddTask} />
           </CardContent>
 
           <CardActions
@@ -81,9 +66,10 @@ const AddTaskItem: React.FC<AddTaskItemProps> = () => {
                 Cancel
               </Button>
               <Button
+                form={formId}
+                type="submit"
                 variant="contained"
                 sx={{ backgroundColor: "black" }}
-                onClick={() => handleAddTask()}
               >
                 Save
               </Button>
