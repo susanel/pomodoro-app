@@ -1,11 +1,12 @@
-import dayjs from 'dayjs';
-import duration, { Duration } from 'dayjs/plugin/duration';
-import { v4 as uuidv4 } from 'uuid';
-import { POMODORO_MODE } from '../utils/constants';
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import { v4 as uuidv4 } from "uuid";
 
-import svg_red from '/favicon_red.svg';
-import svg_green from '/favicon_green.svg';
-import svg_blue from '/favicon_blue.svg';
+import { POMODORO_MODE } from "../utils/constants";
+
+import svg_red from "/favicon_red.svg";
+import svg_green from "/favicon_green.svg";
+import svg_blue from "/favicon_blue.svg";
 
 dayjs.extend(duration);
 
@@ -15,12 +16,14 @@ export interface Task {
   note: string;
   estimatedCount: number;
   actualCount: number;
-  isDone: boolean;
+  isCompleted: boolean;
 }
+
+export type TaskIdOptions = Task["id"] | null;
 
 export type Modes = {
   [key in POMODORO_MODE]: {
-    duration: Duration;
+    duration: number;
     color: string;
     faviconPath: string;
   };
@@ -29,50 +32,50 @@ export type Modes = {
 export const defaultTasks: Task[] = [
   {
     id: uuidv4(),
-    title: 'Learn SQL',
-    note: '',
+    title: "Learn SQL",
+    note: "",
     estimatedCount: 1,
     actualCount: 1,
-    isDone: false,
+    isCompleted: false,
   },
   {
     id: uuidv4(),
-    title: 'Learn RTL',
-    note: 'Test note',
+    title: "Learn RTL",
+    note: "Test note",
     estimatedCount: 4,
     actualCount: 1,
-    isDone: false,
+    isCompleted: false,
   },
   {
     id: uuidv4(),
-    title: 'Answear Email',
-    note: '',
+    title: "Answear Email",
+    note: "",
     estimatedCount: 0.1,
     actualCount: 0,
-    isDone: false,
+    isCompleted: false,
   },
 ];
 
 export const modes: Modes = {
   [POMODORO_MODE.POMODORO]: {
-    duration: dayjs.duration(25, 'minutes'),
-    color: 'pomodoro.red',
+    duration: 1500000,
+    color: "pomodoro.red",
     faviconPath: svg_red,
   },
   [POMODORO_MODE.SHORT_BREAK]: {
-    duration: dayjs.duration(5, 'minutes'),
-    color: 'pomodoro.green',
+    duration: 300000,
+    color: "pomodoro.green",
     faviconPath: svg_green,
   },
   [POMODORO_MODE.LONG_BREAK]: {
-    duration: dayjs.duration(15, 'minutes'),
-    color: 'pomodoro.blue',
+    duration: 900000,
+    color: "pomodoro.blue",
     faviconPath: svg_blue,
   },
 };
 
-interface ModesOrder {
-  id: number;
+export interface ModesOrder {
+  id: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   type: POMODORO_MODE;
 }
 

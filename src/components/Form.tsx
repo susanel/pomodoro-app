@@ -1,17 +1,17 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from "react";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
-import InputLabel from '@mui/material/InputLabel';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import Typography from '@mui/material/Typography';
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import InputBase from "@mui/material/InputBase";
+import InputLabel from "@mui/material/InputLabel";
+import Typography from "@mui/material/Typography";
 
-import { camelize } from '../utils/camelize';
+import { camelize } from "../utils/camelize";
 
-type FormMode = 'create' | 'edit';
+type FormMode = "create" | "edit";
 
 export type FormData = CreateFormData | EditFormData;
 
@@ -47,7 +47,7 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
     const formattedName = camelize(name);
 
     const newState = {
-      [formattedName]: type === 'number' ? Number(value) : value,
+      [formattedName]: type === "number" ? Number(value) : value,
     };
     handleFormData(newState);
   };
@@ -76,11 +76,11 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
         <InputBase
           name="title"
           sx={{
-            width: '100%',
-            fontSize: '22px',
+            width: "100%",
+            fontSize: "22px",
             fontWeight: 700,
-            fontStyle: 'italic',
-            color: 'rgb(85, 85, 85)',
+            fontStyle: "italic",
+            color: "rgb(85, 85, 85)",
           }}
           placeholder="What are you working on?"
           value={formData.title}
@@ -93,15 +93,15 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
         <InputLabel
           shrink
           sx={{
-            color: 'rgb(85, 85, 85)',
+            color: "rgb(85, 85, 85)",
             fontWeight: 700,
-            fontSize: '1rem',
+            fontSize: "1rem",
           }}
         >
-          {mode === 'create' ? 'Est Pomodoros' : `Act \/ Est Pomodoros`}
+          {mode === "create" ? "Est Pomodoros" : "Act / Est Pomodoros"}
         </InputLabel>
 
-        {mode !== 'create' && (
+        {mode !== "create" && (
           <>
             <InputBase
               id="actual-count"
@@ -109,12 +109,12 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
               type="number"
               value={(formData as EditFormData).actualCount}
               sx={{
-                width: '75px',
+                width: "75px",
                 p: 1.25,
-                backgroundColor: 'rgb(239, 239, 239)',
-                borderRadius: '6px',
+                backgroundColor: "rgb(239, 239, 239)",
+                borderRadius: "6px",
                 fontWeight: 700,
-                color: 'rgb(187, 187, 187)',
+                color: "rgb(187, 187, 187)",
               }}
               inputProps={{ min: 0, max: 99 }}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -124,7 +124,7 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
             <Typography
               variant="body1"
               component="span"
-              sx={{ mx: 0.75, color: 'rgb(170, 170, 170)' }}
+              sx={{ mx: 0.75, color: "rgb(170, 170, 170)" }}
             >
               /
             </Typography>
@@ -137,12 +137,12 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
           type="number"
           value={formData.estimatedCount}
           sx={{
-            width: '75px',
-            backgroundColor: 'rgb(239, 239, 239)',
+            width: "75px",
+            backgroundColor: "rgb(239, 239, 239)",
             mr: 1.25,
             p: 1.25,
-            borderRadius: '6px',
-            color: 'rgb(85, 85, 85)',
+            borderRadius: "6px",
+            color: "rgb(85, 85, 85)",
             fontWeight: 700,
           }}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -151,7 +151,7 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
         ></InputBase>
         <IconButton
           variant="outlined"
-          sx={{ mr: '4px' }}
+          sx={{ mr: "4px" }}
           onClick={() => {
             const newCount = handleIncrementInput(formData.estimatedCount);
             handleFormData({ estimatedCount: newCount });
@@ -175,11 +175,11 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
           <Button
             variant="text"
             sx={{
-              width: '100%',
-              justifyContent: 'flex-start',
-              color: 'rgb(136, 136, 136)',
+              width: "100%",
+              justifyContent: "flex-start",
+              color: "rgb(136, 136, 136)",
               fontWeight: 700,
-              textDecoration: 'underline',
+              textDecoration: "underline",
             }}
             onClick={() => {
               setShowNote(!showNote);
@@ -193,11 +193,11 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
             name="note"
             value={formData.note}
             sx={{
-              width: '100%',
+              width: "100%",
               px: 1.75,
               py: 1.25,
-              borderRadius: '6px',
-              backgroundColor: 'rgb(239, 239, 239)',
+              borderRadius: "6px",
+              backgroundColor: "rgb(239, 239, 239)",
             }}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               handleChange(e);
