@@ -81,7 +81,7 @@ const tasksSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchTasks.pending, (state, action) => {
+    builder.addCase(fetchTasks.pending, (state) => {
       console.log("pending");
       state.loading = true;
     });
@@ -90,7 +90,7 @@ const tasksSlice = createSlice({
       state.loading = false;
       state.tasks.push(...action.payload);
     });
-    builder.addCase(fetchTasks.rejected, (state, action) => {
+    builder.addCase(fetchTasks.rejected, (state) => {
       console.log("rejected");
       state.loading = false;
     });
