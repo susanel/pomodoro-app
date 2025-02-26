@@ -8,7 +8,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 
 import { deleteTask, editTask, setEditedTaskId } from "./TasksSlice";
-import Form, { EditFormData } from "../../components/Form";
+import UncontrolledForm, { EditFormData } from "../../components/UncontrolledForm";
 import { Task } from "../../data/data";
 
 type EditTaskItemProps = {
@@ -43,7 +43,7 @@ const EditTaskItem = (props: EditTaskItemProps) => {
   return (
     <Card sx={{ mt: 1.5 }}>
       <CardContent>
-        <Form
+        <UncontrolledForm
           id={formId}
           initialValues={task}
           mode="edit"
