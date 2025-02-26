@@ -15,10 +15,10 @@ function App() {
   );
 
   useEffect(() => {
-    handleFaviconChange();
+    setFavicon();
   }, [pomodoroMode]);
 
-  const handleFaviconChange = () => {
+  const setFavicon = () => {
     const faviconPath = modes[pomodoroMode].faviconPath; // czy takie elementy powinnam otypowac?
 
     const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
