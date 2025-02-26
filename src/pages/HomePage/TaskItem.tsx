@@ -22,18 +22,22 @@ type TaskItemProps = {
   task: Task;
 };
 
+// Opimize Tasks Selector -  specific for component, so kept here instead of selectors.js
+const selectTaskItemData = (state: RootState) => {
+  return {
+    editedTaskId: state.tasks.editedTaskId,
+    activeTaskId: state.tasks.activeTaskId,
+    isTimerRunning: state.timer.isTimerRunning,
+    pomodoroMode: state.timer.pomodoroMode,
+  };
+};
+
 const TaskItem = (props: TaskItemProps) => {
   const { id, title, note, actualCount, estimatedCount, isCompleted } =
     props.task;
-  const { editedTaskId, activeTaskId } = useSelector(
-    (state: RootState) => state.tasks
-  );
-  const isTimerRunning = useSelector(
-    (state: RootState) => state.timer.isTimerRunning
-  );
-  const pomodoroMode = useSelector(
-    (state: RootState) => state.timer.pomodoroMode
-  );
+
+  const { activeTaskId, editedTaskId, isTimerRunning, pomodoroMode } =
+    useSelector(selectTaskItemData);
 
   const dispatch = useDispatch();
 
