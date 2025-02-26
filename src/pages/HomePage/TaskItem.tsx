@@ -108,9 +108,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
               opacity: 0.6,
             },
           }}
-          onClick={(e) => {
-            handleToggleTaskCompleted(e);
-          }}
+          onClick={handleToggleTaskCompleted}
         >
           <CheckCircleIcon
             fontSize="inherit"
@@ -150,7 +148,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         <IconButton
           variant="outlined"
           sx={{ ml: 2.25, py: 0.25, px: 0.5 }}
-          onClick={(e) => handleShowTaskDetails(e)}
+          onClick={handleShowTaskDetails}
         >
           <MoreIcon />
         </IconButton>
