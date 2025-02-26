@@ -12,19 +12,7 @@ import TaskItem from "./TaskItem";
 import { fetchTasks } from "./TasksSlice";
 import { AppDispatch, RootState } from "../../redux/store";
 
-interface TaskListProps {
-  // activeTaskId: Task['id'] | null;
-  // editedTaskId: EditedTaskIdOptions;
-  // tasks: Task[];
-  // tasksIteration: TaskIteration;
-  // handleAddTask: (task: NewTask) => void;
-  // handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-  // handleDeleteTask: (taskId: Task['id']) => void;
-  // handleChangeActiveTask: (taskId: Task['id']) => void;
-  // handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
-}
-
-const TaskList: React.FC<TaskListProps> = () => {
+const TaskList = () => {
   const { tasks, activeTaskId, editedTaskId, taskIteration, loading } =
     useSelector((state: RootState) => state.tasks);
   const dispatch = useDispatch<AppDispatch>();

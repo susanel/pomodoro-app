@@ -1,4 +1,4 @@
-import React, { useId, useState } from "react";
+import { useId, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -10,15 +10,8 @@ import CardContent from "@mui/material/CardContent";
 
 import { addTask } from "./TasksSlice";
 import Form, { CreateFormData } from "../../components/Form";
-import { Task } from "../../data/data";
 
-export type NewTask = Omit<Task, "id">;
-
-interface AddTaskItemProps {
-  // handleAddTask: (task: NewTask) => void;
-}
-
-const AddTaskItem: React.FC<AddTaskItemProps> = () => {
+const AddTaskItem = () => {
   const [showAddTask, setShowAddTask] = useState(false);
 
   const dispatch = useDispatch();

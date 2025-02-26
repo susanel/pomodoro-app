@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import { useId } from "react";
 import { useDispatch } from "react-redux";
 
 import Box from "@mui/material/Box";
@@ -11,14 +11,12 @@ import { deleteTask, editTask, setEditedTaskId } from "./TasksSlice";
 import Form, { EditFormData } from "../../components/Form";
 import { Task } from "../../data/data";
 
-interface EditTaskItemProps {
+type EditTaskItemProps = {
   task: Task;
-  // handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-  // handleDeleteTask: (taskId: Task['id']) => void;
-  // handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
-}
+};
 
-const EditTaskItem: React.FC<EditTaskItemProps> = ({ task }) => {
+const EditTaskItem = (props: EditTaskItemProps) => {
+  const { task } = props;
   const dispatch = useDispatch();
 
   const handleSaveTask = (formData: EditFormData) => {

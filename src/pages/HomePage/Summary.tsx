@@ -27,11 +27,7 @@ const getFinishAt = (tasks: Task[]) => {
   return dayjs().add(getFinishIn(tasks));
 };
 
-interface SummaryProps {
-  // tasks: Task[];
-}
-
-const Summary: React.FC<SummaryProps> = () => {
+const Summary = () => {
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
 
   return (

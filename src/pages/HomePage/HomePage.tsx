@@ -7,14 +7,7 @@ import TaskList from "./TaskList";
 import Timer from "./Timer";
 import { RootState } from "../../redux/store";
 
-interface HomePageProps {
-  // pomodoroMode: POMODORO_MODE;
-  // tasksIteration: TaskIteration;
-  // handleModeChange: (mode?: POMODORO_MODE) => void;
-  // handleTasksIterationChange: (data: Partial<TaskIteration>) => void;
-}
-
-const HomePage: React.FC<HomePageProps> = () => {
+const HomePage = () => {
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
 
   return (
@@ -26,7 +19,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     >
       <Timer />
       <TaskList />
-      {!!tasks.length && <Summary />}
+      <Summary />
     </Box>
   );
 };
