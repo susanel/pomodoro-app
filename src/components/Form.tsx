@@ -9,20 +9,20 @@ import InputBase from "@mui/material/InputBase";
 import InputLabel from "@mui/material/InputLabel";
 import Typography from "@mui/material/Typography";
 
-
 export type FormData = CreateFormData | EditFormData;
-export interface CreateFormData {
+
+export type CreateFormData = {
   title: string;
   note: string;
   estimatedCount: number;
-}
+};
 
-export interface EditFormData {
+export type EditFormData = {
   title: string;
   note: string;
   actualCount: number;
   estimatedCount: number;
-}
+};
 
 type FormProps =
   | {
@@ -37,6 +37,11 @@ type FormProps =
       handleFormData: (newState: EditFormData) => void;
     };
 
+// const initialValues = {
+//   title: '',
+//   note: '',
+//   estimatedCount: 1,
+// } as const; - as const chyba nie? bo w przypadku formularza w kreacji Ts bedzie wymagal ciagle aby typ data byl rowny literałom, a nie obiektowi o danych kluczach
 
 const initialValues = {
   title: "",
@@ -44,22 +49,22 @@ const initialValues = {
   estimatedCount: 1,
 };
 
-const Form: React.FC<FormProps> = (props: FormProps) => {
+const Form = (props: FormProps) => {
   const { mode, handleFormData } = props;
   const [showNote, setShowNote] = useState(false);
-  const [data, setData] = useState(
+  const [data, setData] = useState<FormData>(
     mode === "create" ? initialValues : props.initialValues
   );
 
-  // typescript powinnien przyjmowac jako name tylko kilka wartosci, tu jest tu nie sprawdzane.
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target;
-
-    setData((prevState) => ({
-      ...prevState,
-      [name]: type === "number" ? Number(value) : value,
-    }));
-  };
+  const createTextHandler = <T extends FormData>(name: keyof T) => {
+    return (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { value, type } = event.target;
+      setData((state) => ({
+        ...state,
+        [name]: type === "number" ? Number(value) : value,
+      }));
+    };
+  }; // factory function
 
   const incrementEstimatedCount = (count: number) => {
     if (count >= 99) return count;
@@ -96,12 +101,15 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     handleFormData(data);
+    // if ('actualCount' in data) handleFormData(data);
+    // else if (!('actualCount' in data)) handleFormData(data as CreateFormData); // ??
   };
 
   return (
     <Box component="form" id={props.id} onSubmit={handleSubmit}>
       <Box sx={{ py: 1 }}>
         <InputBase
+          // name={validateNameType('title')} -- TODO dodac tu funkcje walidujaca name jako pole obiektu FormData
           name="title"
           sx={{
             width: "100%",
@@ -112,7 +120,7 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
           }}
           placeholder="What are you working on?"
           value={data.title}
-          onChange={handleChange}
+          onChange={createTextHandler("title")}
         ></InputBase>
       </Box>
       <Box sx={{ py: 1 }}>
@@ -127,7 +135,8 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
           {mode === "create" ? "Est Pomodoros" : "Act / Est Pomodoros"}
         </InputLabel>
 
-        {mode !== "create" && (
+        {"actualCount" in data && ( // type guard: in - blad znika
+          // {mode !== 'create' && (
           <>
             <InputBase
               id="actual-count"
@@ -143,7 +152,7 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
                 color: "rgb(187, 187, 187)",
               }}
               inputProps={{ min: 0, max: 99 }}
-              onChange={handleChange}
+              onChange={createTextHandler<EditFormData>("actualCount")}
             ></InputBase>
             <Typography
               variant="body1"
@@ -169,7 +178,7 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
             color: "rgb(85, 85, 85)",
             fontWeight: 700,
           }}
-          onChange={handleChange}
+          onChange={createTextHandler("estimatedCount")}
         ></InputBase>
         <IconButton
           variant="outlined"
@@ -212,7 +221,7 @@ const Form: React.FC<FormProps> = (props: FormProps) => {
               borderRadius: "6px",
               backgroundColor: "rgb(239, 239, 239)",
             }}
-            onChange={handleChange}
+            onChange={createTextHandler("note")}
           />
         )}
       </Box>
