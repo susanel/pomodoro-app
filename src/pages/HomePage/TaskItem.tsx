@@ -18,17 +18,13 @@ import { Task } from "../../data/data";
 import { RootState } from "../../redux/store";
 import { POMODORO_MODE } from "../../utils/constants";
 
-interface TaskItemProps {
+type TaskItemProps = {
   task: Task;
-  // isActive: boolean;
-  // editedTaskId: EditedTaskIdOptions;
-  // handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-  // handleChangeActiveTask: (taskId: Task['id']) => void;
-  // handleChangeEditedTask: (taskId: EditedTaskIdOptions) => void;
-}
+};
 
-const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-  const { id, title, note, actualCount, estimatedCount } = task;
+const TaskItem = (props: TaskItemProps) => {
+  const { id, title, note, actualCount, estimatedCount, isCompleted } =
+    props.task;
   const { editedTaskId, activeTaskId } = useSelector(
     (state: RootState) => state.tasks
   );
@@ -108,17 +104,13 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
               opacity: 0.6,
             },
           }}
-          onClick={(e) => {
-            handleToggleTaskCompleted(e);
-          }}
+          onClick={handleToggleTaskCompleted}
         >
           <CheckCircleIcon
             fontSize="inherit"
             sx={{
               fontSize: "30px",
-              color: task.isCompleted
-                ? "rgb(186, 73, 73)"
-                : "rgb(223, 223, 223)",
+              color: isCompleted ? "rgb(186, 73, 73)" : "rgb(223, 223, 223)",
             }}
           />
         </IconButton>
@@ -150,7 +142,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         <IconButton
           variant="outlined"
           sx={{ ml: 2.25, py: 0.25, px: 0.5 }}
-          onClick={(e) => handleShowTaskDetails(e)}
+          onClick={handleShowTaskDetails}
         >
           <MoreIcon />
         </IconButton>

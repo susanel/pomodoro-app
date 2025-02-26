@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import SkipNextIcon from "@mui/icons-material/SkipNext";
@@ -43,17 +43,7 @@ const getButtonStyles = (
     : { variant: "text", color: "primary" };
 };
 
-interface TimerProps {
-  // pomodoroMode: POMODORO_MODE; // can take enum?
-  // activeTask: Task;
-  // isCounting: boolean;
-  // setIsCounting: (isCounting: boolean) => void;
-  // handleEditTask: (taskId: Task['id'], data: Partial<Task>) => void;
-  // handleModeChange: (mode?: POMODORO_MODE) => void;
-  // handleTasksIterationChange: (data: Partial<TaskIteration>) => void;
-}
-
-const Timer: React.FC<TimerProps> = () => {
+const Timer = () => {
   const { pomodoroMode, isTimerRunning, timer } = useSelector(
     (state: RootState) => state.timer
   );

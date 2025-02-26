@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { FormEventHandler, useState } from "react";
 
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
@@ -9,50 +9,64 @@ import InputBase from "@mui/material/InputBase";
 import InputLabel from "@mui/material/InputLabel";
 import Typography from "@mui/material/Typography";
 
-import { camelize } from "../utils/camelize";
-
-type FormMode = "create" | "edit";
-
 export type FormData = CreateFormData | EditFormData;
 
-export interface CreateFormData {
+export type CreateFormData = {
   title: string;
   note: string;
   estimatedCount: number;
-}
+};
 
-export interface EditFormData {
+export type EditFormData = {
   title: string;
   note: string;
   actualCount: number;
   estimatedCount: number;
-}
+};
 
-export interface FormConfig {
-  formData: FormData;
-  mode: FormMode;
-}
-
-interface FormProps {
-  config: FormConfig;
-  handleFormData: (newState: Partial<FormData>) => void;
-}
-
-const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
-  const { formData, mode } = config;
-  const [showNote, setShowNote] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target;
-    const formattedName = camelize(name);
-
-    const newState = {
-      [formattedName]: type === "number" ? Number(value) : value,
+type FormProps =
+  | {
+      id: string;
+      mode: "create";
+      handleFormData: (newState: CreateFormData) => void;
+    }
+  | {
+      id: string;
+      mode: "edit";
+      initialValues: EditFormData;
+      handleFormData: (newState: EditFormData) => void;
     };
-    handleFormData(newState);
-  };
 
-  const handleIncrementInput = (count: number) => {
+// const initialValues = {
+//   title: '',
+//   note: '',
+//   estimatedCount: 1,
+// } as const; - as const chyba nie? bo w przypadku formularza w kreacji Ts bedzie wymagal ciagle aby typ data byl rowny literałom, a nie obiektowi o danych kluczach
+
+const initialValues = {
+  title: "",
+  note: "",
+  estimatedCount: 1,
+};
+
+const Form = (props: FormProps) => {
+  const { mode, handleFormData } = props;
+  const [showNote, setShowNote] = useState(false);
+  const [data, setData] = useState<FormData>(
+    mode === "create" ? initialValues : props.initialValues
+  );
+
+  const createTextHandler = <T extends FormData>(name: keyof T) => {
+    return (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { value, type } = event.target;
+      setData((state) => ({
+        ...state,
+        [name]: type === "number" ? Number(value) : value,
+      }));
+    };
+  }; // factory function
+
+  const incrementEstimatedCount = (count: number) => {
     if (count >= 99) return count;
     if (count < 1) {
       const nr = parseFloat((count + 0.1).toFixed(1));
@@ -61,7 +75,7 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
     return count + 1;
   };
 
-  const handleDecrementInput = (count: number) => {
+  const decrementEstimatedCount = (count: number) => {
     if (count <= 0) return count;
     if (count <= 1) {
       const nr = parseFloat((count - 0.1).toFixed(1));
@@ -70,10 +84,32 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
     return count - 1;
   };
 
+  const handleIncrementInput = () => {
+    setData((prevState) => ({
+      ...prevState,
+      estimatedCount: incrementEstimatedCount(prevState.estimatedCount),
+    }));
+  };
+
+  const handleDecrementInput = () => {
+    setData((prevState) => ({
+      ...prevState,
+      estimatedCount: decrementEstimatedCount(prevState.estimatedCount),
+    }));
+  };
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    handleFormData(data);
+    // if ('actualCount' in data) handleFormData(data);
+    // else if (!('actualCount' in data)) handleFormData(data as CreateFormData); // ??
+  };
+
   return (
-    <Box component="form">
+    <Box component="form" id={props.id} onSubmit={handleSubmit}>
       <Box sx={{ py: 1 }}>
         <InputBase
+          // name={validateNameType('title')} -- TODO dodac tu funkcje walidujaca name jako pole obiektu FormData
           name="title"
           sx={{
             width: "100%",
@@ -83,10 +119,8 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
             color: "rgb(85, 85, 85)",
           }}
           placeholder="What are you working on?"
-          value={formData.title}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            handleChange(e);
-          }}
+          value={data.title}
+          onChange={createTextHandler("title")}
         ></InputBase>
       </Box>
       <Box sx={{ py: 1 }}>
@@ -101,13 +135,14 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
           {mode === "create" ? "Est Pomodoros" : "Act / Est Pomodoros"}
         </InputLabel>
 
-        {mode !== "create" && (
+        {"actualCount" in data && ( // type guard: in - blad znika
+          // {mode !== 'create' && (
           <>
             <InputBase
               id="actual-count"
-              name="actual-count"
+              name="actualCount"
               type="number"
-              value={(formData as EditFormData).actualCount}
+              value={data.actualCount}
               sx={{
                 width: "75px",
                 p: 1.25,
@@ -117,9 +152,7 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
                 color: "rgb(187, 187, 187)",
               }}
               inputProps={{ min: 0, max: 99 }}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                handleChange(e);
-              }}
+              onChange={createTextHandler<EditFormData>("actualCount")}
             ></InputBase>
             <Typography
               variant="body1"
@@ -133,9 +166,9 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
 
         <InputBase
           id="estimated-count"
-          name="estimated-count"
+          name="estimatedCount"
           type="number"
-          value={formData.estimatedCount}
+          value={data.estimatedCount}
           sx={{
             width: "75px",
             backgroundColor: "rgb(239, 239, 239)",
@@ -145,27 +178,16 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
             color: "rgb(85, 85, 85)",
             fontWeight: 700,
           }}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            handleChange(e);
-          }}
+          onChange={createTextHandler("estimatedCount")}
         ></InputBase>
         <IconButton
           variant="outlined"
           sx={{ mr: "4px" }}
-          onClick={() => {
-            const newCount = handleIncrementInput(formData.estimatedCount);
-            handleFormData({ estimatedCount: newCount });
-          }}
+          onClick={handleIncrementInput}
         >
           <ArrowDropUpIcon />
         </IconButton>
-        <IconButton
-          variant="outlined"
-          onClick={() => {
-            const newCount = handleDecrementInput(formData.estimatedCount);
-            handleFormData({ estimatedCount: newCount });
-          }}
-        >
+        <IconButton variant="outlined" onClick={handleDecrementInput}>
           <ArrowDropDownIcon />
         </IconButton>
       </Box>
@@ -191,7 +213,7 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
         {showNote && (
           <InputBase
             name="note"
-            value={formData.note}
+            value={data.note}
             sx={{
               width: "100%",
               px: 1.75,
@@ -199,9 +221,7 @@ const Form: React.FC<FormProps> = ({ config, handleFormData }) => {
               borderRadius: "6px",
               backgroundColor: "rgb(239, 239, 239)",
             }}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              handleChange(e);
-            }}
+            onChange={createTextHandler("note")}
           />
         )}
       </Box>

@@ -5,9 +5,9 @@ interface HomePageProps {
   value: number;
 }
 
-const TimeBar: React.FC<HomePageProps> = ({ value }: { value: number }) => (
+const TimeBar = (props: HomePageProps) => (
   <Box sx={{ width: "100%", mb: 5 }}>
-    <LinearProgress variant="determinate" value={value} color="inherit" />
+    <LinearProgress variant="determinate" value={props.value} color="inherit" />
   </Box>
 );
 
